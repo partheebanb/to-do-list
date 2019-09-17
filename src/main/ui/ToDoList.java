@@ -22,7 +22,7 @@ public class ToDoList {
 
         while (true) {
             System.out.println("Please select an option: \n 1. Add an item to the list "
-                    + "\n 2. Remove an item from the list \n 3. Display all items in list \n 4. Quit" );
+                    + "\n 2. Remove an item from the list \n 3. Display all items in list \n 4. Quit");
             option = scanner.nextLine();
 
             if (option.equals("4")) {
@@ -43,8 +43,13 @@ public class ToDoList {
                 break;
             case "3":
                 displayList();
+                break;
+            default:
+                break;
+
         }
     }
+
     private void addItem() {
         String NewItem;
 
@@ -65,7 +70,7 @@ public class ToDoList {
     }
 
     private void displayList() {
-        for (String item: theList) {
+        for (String item : theList) {
             System.out.println(item);
         }
     }
