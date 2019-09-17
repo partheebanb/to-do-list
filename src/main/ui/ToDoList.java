@@ -61,13 +61,13 @@ public class ToDoList {
     }
 
     private void removeItem() {
-        Integer CrossOff;
+        Integer crossOff = 0;
 
         displayList();
         System.out.println("You have chosen to remove an item!");
         System.out.println("Which item would you like to cross off the list?");
-        CrossOff = Integer.parseInt(scanner.nextLine());
-        theList.set(CrossOff - 1, theList.get(CrossOff - 1) + " (CROSSED OFF)");
+        crossOff = Integer.parseInt(scanner.nextLine());
+        theList.set(crossOff - 1, theList.get(crossOff - 1) + " (CROSSED OFF)");
     }
 
     private void displayList() {
