@@ -53,18 +53,15 @@ public class ToDoList {
     }
 
     private void addItem() {
-        String NewItem;
-
         size++;
         System.out.println("You have chosen to add an item!");
         System.out.println("Enter the new item");
-        NewItem = Integer.toString(size) + ". " + scanner.nextLine();
-        theList.add(NewItem);
+        theList.add(Integer.toString(size) + ". " + scanner.nextLine());
         displayList();
     }
 
     private void removeItem() {
-        Integer CrossOff = 0;
+        Integer CrossOff;
 
         displayList();
         System.out.println("You have chosen to remove an item!");
