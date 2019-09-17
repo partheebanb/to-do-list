@@ -57,7 +57,7 @@ public class ToDoList {
         Integer CrossOff = 0;
 
         displayList();
-        System.out.println("Which item would you like to cross off?");
+        System.out.println("Which item would you like to cross off the list?");
         CrossOff = Integer.parseInt(scanner.nextLine());
         theList.set(CrossOff - 1, theList.get(CrossOff - 1) + " (CROSSED OFF)");
     }
