@@ -21,30 +21,32 @@ public class ToDoList {
         String option = "";
 
         while (true) {
-            System.out.println("Please select an option: \n 1. Add an item to the list " +
-                    "\n 2. Remove an item from the list \n 3. Display all items in list \n 4. Quit" );
+            System.out.println("Please select an option: \n 1. Add an item to the list "
+                    + "\n 2. Remove an item from the list \n 3. Display all items in list \n 4. Quit" );
             option = scanner.nextLine();
-
 
             if (option.equals("4")) {
                 break;
             }
 
-            switch (option) {
-                case "1":
-                    addItem();
-                    break;
-                case "2":
-                    removeItem();
-                    break;
-                case "3":
-                    displayList();
-            }
+            handleInput(option);
         }
     }
 
+    private void handleInput(String option) {
+        switch (option) {
+            case "1":
+                addItem();
+                break;
+            case "2":
+                removeItem();
+                break;
+            case "3":
+                displayList();
+        }
+    }
     private void addItem() {
-        String NewItem = "";
+        String NewItem;
 
         size++;
         System.out.println("Enter the new item");
@@ -53,7 +55,7 @@ public class ToDoList {
         displayList();
     }
 
-    private void removeItem(){
+    private void removeItem() {
         Integer CrossOff = 0;
 
         displayList();
@@ -62,11 +64,13 @@ public class ToDoList {
         theList.set(CrossOff - 1, theList.get(CrossOff - 1) + " (CROSSED OFF)");
     }
 
-    private void displayList(){
-        for(String item: theList){
+    private void displayList() {
+        for (String item: theList) {
             System.out.println(item);
         }
     }
 
-    public static void main(String[] args) { new ToDoList(); }
+    public static void main(String[] args) {
+        new ToDoList();
+    }
 }
