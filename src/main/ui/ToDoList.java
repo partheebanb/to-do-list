@@ -21,11 +21,12 @@ public class ToDoList {
         String option = "";
 
         while (true) {
-            System.out.println("Please select an option: \n 1. Add an item to the list "
-                    + "\n 2. Remove an item from the list \n 3. Display all items in list \n 4. Quit");
+            System.out.println("Please select an option: \n 1. Add an item to the list"
+                     + "\n 2. Remove an item from the list \n 3. Display all items in list \n 4. Quit");
             option = scanner.nextLine();
 
             if (option.equals("4")) {
+                System.out.println("You have chosen to quit!");
                 break;
             }
 
@@ -42,6 +43,7 @@ public class ToDoList {
                 removeItem();
                 break;
             case "3":
+                System.out.println("You have chosen to view the list!");
                 displayList();
                 break;
             default:
@@ -54,6 +56,7 @@ public class ToDoList {
         String NewItem;
 
         size++;
+        System.out.println("You have chosen to add an item!");
         System.out.println("Enter the new item");
         NewItem = Integer.toString(size) + ". " + scanner.nextLine();
         theList.add(NewItem);
@@ -64,6 +67,7 @@ public class ToDoList {
         Integer CrossOff = 0;
 
         displayList();
+        System.out.println("You have chosen to remove an item!");
         System.out.println("Which item would you like to cross off the list?");
         CrossOff = Integer.parseInt(scanner.nextLine());
         theList.set(CrossOff - 1, theList.get(CrossOff - 1) + " (CROSSED OFF)");
