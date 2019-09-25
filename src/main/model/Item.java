@@ -51,6 +51,9 @@ public class Item {
         return priority;
     }
 
+
+    // MODIFIES: this
+    // EFFECTS: uses user input to create a new item
     public Item createItem() {
         Item item = new Item();
         SimpleDateFormat dueDate;
@@ -66,6 +69,7 @@ public class Item {
         return item;
     }
 
+    //  EFFECTS: returns a string containing all the data in the item formatted for display
     public String displayItem(Item item) {
         return ("Title: " + item.getTitle() + ". Priority: " + item.getPriority()
                 + ". Status: " + item.getStatus() + ". Due Date: " + (item.getDueDate()).toPattern());

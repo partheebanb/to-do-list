@@ -13,10 +13,11 @@ public class ToDoList {
         theList = new ArrayList<>();
         scanner = new Scanner(System.in);
         size = 0;
-        handleIo();
+        menu();
     }
 
-    private void handleIo() {
+    // EFFECTS: presents the menu of options and accepts user input, quiting the program if required
+    private void menu() {
         String option = "";
 
         while (true) {
@@ -33,6 +34,7 @@ public class ToDoList {
         }
     }
 
+    // EFFECTS: handles all user input except for quiting
     private void handleInput(String option) {
         switch (option) {
             case "1":
@@ -51,6 +53,8 @@ public class ToDoList {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates a new item, fills its field and adds it to theList
     private void addItem() {
         size++;
         Item item = new Item();
@@ -61,6 +65,8 @@ public class ToDoList {
         displayList();
     }
 
+    // MODIFIES: this
+    // EFFECTS: removes an input from the theList based on user input
     private void removeItem() {
         Integer crossOff = 0;
 
@@ -71,6 +77,7 @@ public class ToDoList {
         theList.get(crossOff - 1).setStatus("Done");
     }
 
+    // EFFECTS: prints out all the items in theList formatted appropriately
     private void displayList() {
         for (Item item : theList) {
             System.out.println(size + ". " + item.displayItem(item));
