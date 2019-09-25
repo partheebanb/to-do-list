@@ -14,7 +14,7 @@ public class ItemTest {
 
         item.setTitle("Test");
         item.setStatus("Not done");
-        item.setDueDate(new SimpleDateFormat("21-04-2020"));
+        item.setDueDate(new SimpleDateFormat("21-04-2000"));
         item.setPriority("High");
         display = item.displayItem(item);
 

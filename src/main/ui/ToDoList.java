@@ -13,7 +13,15 @@ public class ToDoList {
         theList = new ArrayList<>();
         scanner = new Scanner(System.in);
         size = 0;
-        menu();
+
+    }
+
+    public ArrayList getTheList() {
+        return theList;
+    }
+
+    public Integer getSize() {
+        return size;
     }
 
     // EFFECTS: presents the menu of options and accepts user input, quiting the program if required
@@ -41,7 +49,7 @@ public class ToDoList {
                 addItem();
                 break;
             case "2":
-                removeItem();
+                chooseItemToComplete();
                 break;
             case "3":
                 System.out.println("You have chosen to view the list!");
@@ -66,16 +74,24 @@ public class ToDoList {
     }
 
     // MODIFIES: this
-    // EFFECTS: removes an input from the theList based on user input
-    private void removeItem() {
+    // EFFECTS: allows the user to choose an item to mark as complete
+    private void chooseItemToComplete() {
         Integer crossOff = 0;
 
         displayList();
-        System.out.println("You have chosen to remove an item!");
+        System.out.println("You have chosen mark an item as complete!");
         System.out.println("Which item would you like to mark as complete?");
         crossOff = Integer.parseInt(scanner.nextLine());
-        theList.get(crossOff - 1).setStatus("Done");
+        completeItem(crossOff);
     }
+
+    //REQUIRES: crossOff <= size of theList
+    //MODIFIES: this
+    //EFFECTS: marks item in theList at crossOff - 1 as complete
+    public void completeItem(Integer crossOff) {
+        theList.get(crossOff - 1).setStatus("Complete");
+    }
+
 
     // EFFECTS: prints out all the items in theList formatted appropriately
     private void displayList() {
@@ -85,6 +101,7 @@ public class ToDoList {
     }
 
     public static void main(String[] args) {
-        new ToDoList();
+        ToDoList toDoList = new ToDoList();
+        toDoList.menu();
     }
 }
