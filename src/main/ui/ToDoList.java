@@ -1,10 +1,11 @@
 package ui;
 
+import model.Item;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ToDoList {
-    private ArrayList<String> theList;
+    private ArrayList<Item> theList;
     private Scanner scanner;
     private Integer size;
 
@@ -20,7 +21,7 @@ public class ToDoList {
 
         while (true) {
             System.out.println("Please select an option: \n 1. Add an item to the list"
-                     + "\n 2. Remove an item from the list \n 3. Display all items in list \n 4. Quit");
+                     + "\n 2. Mark an item as complete \n 3. Display all items in list \n 4. Quit");
             option = scanner.nextLine();
 
             if (option.equals("4")) {
@@ -52,9 +53,11 @@ public class ToDoList {
 
     private void addItem() {
         size++;
+        Item item = new Item();
+
         System.out.println("You have chosen to add an item!");
-        System.out.println("Enter the new item");
-        theList.add(Integer.toString(size) + ". " + scanner.nextLine());
+        item = item.createItem();
+        theList.add(item);
         displayList();
     }
 
@@ -63,14 +66,14 @@ public class ToDoList {
 
         displayList();
         System.out.println("You have chosen to remove an item!");
-        System.out.println("Which item would you like to cross off the list?");
+        System.out.println("Which item would you like to mark as complete?");
         crossOff = Integer.parseInt(scanner.nextLine());
-        theList.set(crossOff - 1, theList.get(crossOff - 1) + " (CROSSED OFF)");
+        theList.get(crossOff - 1).setStatus("Done");
     }
 
     private void displayList() {
-        for (String item : theList) {
-            System.out.println(item);
+        for (Item item : theList) {
+            System.out.println(size + ". " + item.displayItem(item));
         }
     }
 
