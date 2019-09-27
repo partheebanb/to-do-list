@@ -1,10 +1,20 @@
 package ui;
 
 import model.Item;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
-public class ToDoList {
+public class ToDoList implements Loadable, Saveable {
     private ArrayList<Item> theList;
     private Scanner scanner;
     private Integer size;
@@ -25,15 +35,16 @@ public class ToDoList {
     }
 
     // EFFECTS: presents the menu of options and accepts user input, quiting the program if required
-    private void menu() {
+    private void menu() throws IOException {
         String option = "";
 
         while (true) {
-            System.out.println("Please select an option: \n 1. Add an item to the list"
-                     + "\n 2. Mark an item as complete \n 3. Display all items in list \n 4. Quit");
+            System.out.println("Please select an option: \n 1: Add an item to the list"
+                     + "\n 2: Mark an item as complete \n 3: Display all items in list \n 4: Load saved list "
+                     + "\n 5: Save list into file \n 6: Quit");
             option = scanner.nextLine();
 
-            if (option.equals("4")) {
+            if (option.equals("6")) {
                 System.out.println("You have chosen to quit!");
                 break;
             }
@@ -43,7 +54,7 @@ public class ToDoList {
     }
 
     // EFFECTS: handles all user input except for quiting
-    private void handleInput(String option) {
+    private void handleInput(String option) throws IOException {
         switch (option) {
             case "1":
                 addItem();
@@ -52,12 +63,15 @@ public class ToDoList {
                 chooseItemToComplete();
                 break;
             case "3":
-                System.out.println("You have chosen to view the list!");
                 displayList();
                 break;
-            default:
+            case "4":
+                load();
                 break;
-
+            case "5":
+                save();
+                break;
+            default: break;
         }
     }
 
@@ -95,12 +109,58 @@ public class ToDoList {
 
     // EFFECTS: prints out all the items in theList formatted appropriately
     private void displayList() {
-        for (Item item : theList) {
-            System.out.println(size + ". " + item.displayItem(item));
+        for (int i = 0; i < size; i++) {
+            System.out.println((i + 1) + ". " + theList.get(i).displayItem());
         }
     }
 
-    public static void main(String[] args) {
+    // EFFECTS: returns a toDoList containing all the data in listData
+    public void load() throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get("listData.txt"));
+        theList = new ArrayList<>();
+        size = 0;
+
+        for (String line : lines) {
+            Item item = new Item();
+            SimpleDateFormat dueDate;
+            size += 1;
+
+            ArrayList<String> parts = splitOnSpace(line);
+            item.setTitle(parts.get(0));
+            item.setPriority(parts.get(1));
+            item.setStatus(parts.get(2));
+            dueDate = new SimpleDateFormat(parts.get(3));
+            item.setDueDate(dueDate);
+
+            theList.add(item);
+
+            // obtained some lines of code from FileReaderWriter.java
+        }
+    }
+
+    // EFFECTS: saves all the data in toDoList into listData
+    public void save() throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter writer = new PrintWriter("listData.txt","UTF-8");
+
+        for (Item item : theList) {
+            String line = item.getTitle() + " " + item.getPriority() + " " + item.getStatus() + " "
+                    + item.getDueDate().toPattern();
+            writer.println(line);
+        }
+
+        writer.close();
+
+        // obtained some lines of code from FileReaderWriter.java
+    }
+
+    // obtained function from FileReaderWriter.java
+    // EFFECTS: splits up a string at spaces and puts the sub-strings into an arraylist
+    public static ArrayList<String> splitOnSpace(String line) {
+        String[] splits = line.split(" ");
+        return new ArrayList<>(Arrays.asList(splits));
+    }
+
+    public static void main(String[] args) throws IOException {
         ToDoList toDoList = new ToDoList();
         toDoList.menu();
     }

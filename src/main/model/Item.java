@@ -18,7 +18,6 @@ public class Item {
         scanner = new Scanner(System.in);
     }
 
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -65,13 +64,13 @@ public class Item {
         System.out.println("Enter a due date for the new item in the form dd-mm-yyyy");
         dueDate = new SimpleDateFormat(scanner.nextLine());
         item.setDueDate(dueDate);
-        item.setStatus("Not done");
+        item.setStatus("Incomplete");
         return item;
     }
 
     //  EFFECTS: returns a string containing all the data in the item formatted for display
-    public String displayItem(Item item) {
-        return ("Title: " + item.getTitle() + ". Priority: " + item.getPriority()
-                + ". Status: " + item.getStatus() + ". Due Date: " + (item.getDueDate()).toPattern());
+    public String displayItem() {
+        return ("Title: " + getTitle() + ". Priority: " + getPriority()
+                + ". Status: " + getStatus() + ". Due Date: " + (getDueDate()).toPattern());
     }
 }
