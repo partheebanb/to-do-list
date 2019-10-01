@@ -53,20 +53,31 @@ public class Item {
 
     // MODIFIES: this
     // EFFECTS: uses user input to create a new item
-    public Item createItem() {
+    public Item inputItemData() {
         Item item = new Item();
+        String title;
+        String priority;
+        String status = "Incomplete";
         SimpleDateFormat dueDate;
 
         System.out.println("Enter a title for the new item!");
-        item.setTitle(scanner.nextLine());
+        title = scanner.nextLine();
         System.out.println("Enter a priority for the new item!");
-        item.setPriority(scanner.nextLine());
+        priority = scanner.nextLine();
         System.out.println("Enter a due date for the new item in the form dd-mm-yyyy");
         dueDate = new SimpleDateFormat(scanner.nextLine());
-        item.setDueDate(dueDate);
-        item.setStatus("Incomplete");
+        item = createItem(title, priority, status, dueDate);
         return item;
     }
+
+    public Item createItem(String title, String priority, String status, SimpleDateFormat dueDate) {
+        this.title = title;
+        this.priority = priority;
+        this.status = status;
+        this.dueDate = dueDate;
+        return this;
+    }
+
 
     //  EFFECTS: returns a string containing all the data in the item formatted for display
     public String displayItem() {

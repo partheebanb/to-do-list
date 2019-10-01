@@ -34,6 +34,10 @@ public class ToDoList implements Loadable, Saveable {
         return size;
     }
 
+    public Item getItem(Integer i) {
+        return theList.get(i);
+    }
+
     // EFFECTS: presents the menu of options and accepts user input, quiting the program if required
     private void menu() throws IOException {
         String option = "";
@@ -66,10 +70,10 @@ public class ToDoList implements Loadable, Saveable {
                 displayList();
                 break;
             case "4":
-                load();
+                load("ListData.txt");
                 break;
             case "5":
-                save();
+                save("ListData.txt");
                 break;
             default: break;
         }
@@ -82,7 +86,7 @@ public class ToDoList implements Loadable, Saveable {
         Item item = new Item();
 
         System.out.println("You have chosen to add an item!");
-        item = item.createItem();
+        item = item.inputItemData();
         theList.add(item);
         displayList();
     }
@@ -114,9 +118,10 @@ public class ToDoList implements Loadable, Saveable {
         }
     }
 
-    // EFFECTS: returns a toDoList containing all the data in listData
-    public void load() throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get("listData.txt"));
+    // MODIFIES: this
+    // EFFECTS: deletes all the data in theList and assigns to it all the data in listData
+    public void load(String location) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(location));
         theList = new ArrayList<>();
         size = 0;
 
@@ -139,8 +144,8 @@ public class ToDoList implements Loadable, Saveable {
     }
 
     // EFFECTS: saves all the data in toDoList into listData
-    public void save() throws FileNotFoundException, UnsupportedEncodingException {
-        PrintWriter writer = new PrintWriter("listData.txt","UTF-8");
+    public void save(String location) throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter writer = new PrintWriter(location, "UTF-8");
 
         for (Item item : theList) {
             String line = item.getTitle() + " " + item.getPriority() + " " + item.getStatus() + " "
