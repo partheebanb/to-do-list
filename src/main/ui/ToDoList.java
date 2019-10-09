@@ -78,8 +78,7 @@ public class ToDoList implements Loadable, Saveable {
             case "5":
                 save("ListData.txt");
                 break;
-            default:
-                break;
+            default: break;
         }
     }
 
