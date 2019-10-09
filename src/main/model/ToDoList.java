@@ -1,9 +1,4 @@
-package ui;
-
-import model.Item;
-import model.LowItem;
-import model.NormalItem;
-import model.UrgentItem;
+package model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -41,78 +36,24 @@ public class ToDoList implements Loadable, Saveable {
         return theList.get(i);
     }
 
-    // EFFECTS: presents the menu of options and accepts user input, quiting the program if required
-    private void menu() throws IOException {
-        String option = "";
-
-        while (true) {
-            System.out.println("Please select an option: \n 1: Add an item to the list"
-                    + "\n 2: Mark an item as complete \n 3: Display all items in list \n 4: Load saved list "
-                    + "\n 5: Save list into file \n 6: Quit");
-            option = scanner.nextLine();
-
-            if (option.equals("6")) {
-                System.out.println("You have chosen to quit!");
-                break;
-            }
-
-            handleInput(option);
-        }
+    public void setSize(Integer i) {
+        this.size = i;
     }
 
-    // EFFECTS: handles all user input except for quiting
-    private void handleInput(String option) throws IOException {
-        switch (option) {
-            case "1":
-                addItem();
-                break;
-            case "2":
-                chooseItemToComplete();
-                break;
-            case "3":
-                displayList();
-                break;
-            case "4":
-                load("ListData.txt");
-                break;
-            case "5":
-                save("ListData.txt");
-                break;
-            default: break;
-        }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: creates a new item, fills its field and adds it to theList
-    private void addItem() {
-        size++;
-        Item item;
-        String option = "";
-
-        System.out.println("You have chosen to add an item! Please choose a priority: \n 1: Low "
-                + "\n 2: Normal \n 3: High");
-        option = scanner.nextLine();
-        item = handlePriority(option);
-        item = inputItemData(item);
-        theList.add(item);
-        sort();
-        displayList();
-    }
-
-    private void sort() {
+    public void sort() {
         for (int j = 0; j < size - 1; j++) {
             for (int i = 0; i < size - 1; i++) {
                 if (!(theList.get(i).getPriority() == "URGENT") && (theList.get(i + 1).getPriority() == "URGENT")) {
                     switchItems(i);
                 }
-                if ((theList.get(i).getPriority() == "Low") && (theList.get(i + 1).getPriority() == "Normal")) {
+                if ((theList.get(i).getPriority() == "Low") && !(theList.get(i + 1).getPriority() == "Low")) {
                     switchItems(i);
                 }
             }
         }
     }
 
-    private void switchItems(int i) {
+    public void switchItems(int i) {
         Item normalItem = theList.get(i + 1);
         theList.set(i + 1, theList.get(i));
         theList.set(i, normalItem);
@@ -121,7 +62,7 @@ public class ToDoList implements Loadable, Saveable {
         }
     }
 
-    private Item handlePriority(String option) {
+    public Item handlePriority(String option) {
         switch (option) {
             case "1":
                 return new LowItem();
@@ -130,29 +71,6 @@ public class ToDoList implements Loadable, Saveable {
             default:
                 return new NormalItem();
         }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: uses user input to create a new item
-    private Item inputItemData(Item item) {
-        System.out.println("Enter a title for the new item!");
-        item.setTitle(scanner.nextLine());
-        System.out.println("Enter a due date for the new item in the form dd-mm-yyyy");
-        item.setDueDate(new SimpleDateFormat(scanner.nextLine()));
-        return item;
-    }
-
-    // MODIFIES: this
-    // EFFECTS: allows the user to choose an item to mark as complete
-
-    private void chooseItemToComplete() {
-        Integer crossOff = 0;
-
-        displayList();
-        System.out.println("You have chosen mark an item as complete!");
-        System.out.println("Which item would you like to mark as complete?");
-        crossOff = Integer.parseInt(scanner.nextLine());
-        completeItem(crossOff);
     }
 
     //REQUIRES: crossOff <= size of theList
@@ -164,7 +82,7 @@ public class ToDoList implements Loadable, Saveable {
 
 
     // EFFECTS: prints out all the items in theList formatted appropriately
-    private void displayList() {
+    public void displayList() {
         for (int i = 0; i < size; i++) {
             System.out.println((i + 1) + ". " + theList.get(i).displayItem());
         }
@@ -216,10 +134,5 @@ public class ToDoList implements Loadable, Saveable {
     public static ArrayList<String> splitOnSpace(String line) {
         String[] splits = line.split(" ");
         return new ArrayList<>(Arrays.asList(splits));
-    }
-
-    public static void main(String[] args) throws IOException {
-        ToDoList toDoList = new ToDoList();
-        toDoList.menu();
     }
 }

@@ -1,5 +1,5 @@
 import model.NormalItem;
-import ui.ToDoList;
+import model.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
