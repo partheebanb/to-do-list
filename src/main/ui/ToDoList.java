@@ -47,8 +47,8 @@ public class ToDoList implements Loadable, Saveable {
 
         while (true) {
             System.out.println("Please select an option: \n 1: Add an item to the list"
-                     + "\n 2: Mark an item as complete \n 3: Display all items in list \n 4: Load saved list "
-                     + "\n 5: Save list into file \n 6: Quit");
+                    + "\n 2: Mark an item as complete \n 3: Display all items in list \n 4: Load saved list "
+                    + "\n 5: Save list into file \n 6: Quit");
             option = scanner.nextLine();
 
             if (option.equals("6")) {
@@ -78,7 +78,8 @@ public class ToDoList implements Loadable, Saveable {
             case "5":
                 save("ListData.txt");
                 break;
-            default: break;
+            default:
+                break;
         }
     }
 
@@ -95,7 +96,30 @@ public class ToDoList implements Loadable, Saveable {
         item = handlePriority(option);
         item = inputItemData(item);
         theList.add(item);
+        sort();
         displayList();
+    }
+
+    private void sort() {
+        for (int j = 0; j < size - 1; j++) {
+            for (int i = 0; i < size - 1; i++) {
+                if (!(theList.get(i).getPriority() == "URGENT") && (theList.get(i + 1).getPriority() == "URGENT")) {
+                    switchItems(i);
+                }
+                if ((theList.get(i).getPriority() == "Low") && (theList.get(i + 1).getPriority() == "Normal")) {
+                    switchItems(i);
+                }
+            }
+        }
+    }
+
+    private void switchItems(int i) {
+        Item normalItem = theList.get(i + 1);
+        theList.set(i + 1, theList.get(i));
+        theList.set(i, normalItem);
+        if (i > 0) {
+            i--;
+        }
     }
 
     private Item handlePriority(String option) {
@@ -104,7 +128,8 @@ public class ToDoList implements Loadable, Saveable {
                 return new LowItem();
             case "3":
                 return new UrgentItem();
-            default: return new NormalItem();
+            default:
+                return new NormalItem();
         }
     }
 
