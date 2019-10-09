@@ -1,11 +1,9 @@
-import model.Item;
+import model.NormalItem;
 import ui.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,17 +18,17 @@ public class SaveableTest {
 
     @Test
     public void testSave() throws IOException {
-        Item item = new Item();
+        NormalItem normalItem = new NormalItem();
 
-        item.createItem("Test", "High", "Complete", new SimpleDateFormat("20-04-2020"));
-        toDoList.getTheList().add(item);
+        normalItem.createItem("Test", "High", "Complete", new SimpleDateFormat("20-04-2020"));
+        toDoList.getTheList().add(normalItem);
         toDoList.save("SaveableTestFile");
         toDoList.load("SaveableTestFile");
 
-        assertEquals(item.getTitle(), toDoList.getItem(0).getTitle());
-        assertEquals(item.getPriority(), toDoList.getItem(0).getPriority());
-        assertEquals(item.getStatus(), toDoList.getItem(0).getStatus());
-        assertEquals(item.getDueDate(), toDoList.getItem(0).getDueDate());
+        assertEquals(normalItem.getTitle(), toDoList.getItem(0).getTitle());
+        assertEquals(normalItem.getPriority(), toDoList.getItem(0).getPriority());
+        assertEquals(normalItem.getStatus(), toDoList.getItem(0).getStatus());
+        assertEquals(normalItem.getDueDate(), toDoList.getItem(0).getDueDate());
 
     }
 }

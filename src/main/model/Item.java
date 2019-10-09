@@ -3,12 +3,12 @@ package model;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
-public class Item {
-    private String title;
-    private String status;
-    private String priority;
-    private SimpleDateFormat dueDate;
-    private Scanner scanner;
+public abstract class Item {
+    protected String title;
+    protected String status;
+    protected String priority;
+    protected SimpleDateFormat dueDate;
+    protected Scanner scanner;
 
     public Item() {
         title = "";
@@ -53,21 +53,12 @@ public class Item {
 
     // MODIFIES: this
     // EFFECTS: uses user input to create a new item
-    public Item inputItemData() {
-        Item item = new Item();
-        String title;
-        String priority;
-        String status = "Incomplete";
-        SimpleDateFormat dueDate;
-
+    public void inputItemData() {
+        this.setStatus("Incomplete");
         System.out.println("Enter a title for the new item!");
-        title = scanner.nextLine();
-        System.out.println("Enter a priority for the new item!");
-        priority = scanner.nextLine();
+        this.setTitle(scanner.nextLine());
         System.out.println("Enter a due date for the new item in the form dd-mm-yyyy");
-        dueDate = new SimpleDateFormat(scanner.nextLine());
-        item = createItem(title, priority, status, dueDate);
-        return item;
+        this.setDueDate(new SimpleDateFormat(scanner.nextLine()));
     }
 
     public Item createItem(String title, String priority, String status, SimpleDateFormat dueDate) {

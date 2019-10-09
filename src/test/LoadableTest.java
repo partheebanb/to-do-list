@@ -1,4 +1,4 @@
-import model.Item;
+import model.NormalItem;
 import ui.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,20 +17,20 @@ public class LoadableTest {
 
     @Test
     public void testLoad() throws IOException {
-        Item item1 = new Item();
-        Item item2 = new Item();
-        item1.createItem("Test", "High", "Incomplete", new SimpleDateFormat("20-04-2020"));
-        item2.createItem("Test2", "Low", "Complete", new SimpleDateFormat("18-12-2019"));
+        NormalItem normalItem1 = new NormalItem();
+        NormalItem normalItem2 = new NormalItem();
+        normalItem1.createItem("Test", "High", "Incomplete", new SimpleDateFormat("20-04-2020"));
+        normalItem2.createItem("Test2", "Low", "Complete", new SimpleDateFormat("18-12-2019"));
         toDoList.load("LoadableTestFile");
 
-        assertEquals(item1.getTitle(), toDoList.getItem(0).getTitle());
-        assertEquals(item1.getPriority(), toDoList.getItem(0).getPriority());
-        assertEquals(item1.getStatus(), toDoList.getItem(0).getStatus());
-        assertEquals(item1.getDueDate(), toDoList.getItem(0).getDueDate());
+        assertEquals(normalItem1.getTitle(), toDoList.getItem(0).getTitle());
+        assertEquals(normalItem1.getPriority(), toDoList.getItem(0).getPriority());
+        assertEquals(normalItem1.getStatus(), toDoList.getItem(0).getStatus());
+        assertEquals(normalItem1.getDueDate(), toDoList.getItem(0).getDueDate());
 
-        assertEquals(item2.getTitle(), toDoList.getItem(1).getTitle());
-        assertEquals(item2.getPriority(), toDoList.getItem(1).getPriority());
-        assertEquals(item2.getStatus(), toDoList.getItem(1).getStatus());
-        assertEquals(item2.getDueDate(), toDoList.getItem(1).getDueDate());
+        assertEquals(normalItem2.getTitle(), toDoList.getItem(1).getTitle());
+        assertEquals(normalItem2.getPriority(), toDoList.getItem(1).getPriority());
+        assertEquals(normalItem2.getStatus(), toDoList.getItem(1).getStatus());
+        assertEquals(normalItem2.getDueDate(), toDoList.getItem(1).getDueDate());
     }
 }

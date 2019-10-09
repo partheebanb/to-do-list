@@ -1,4 +1,4 @@
-import model.Item;
+import model.NormalItem;
 import org.junit.jupiter.api.Test;
 import java.text.SimpleDateFormat;
 
@@ -9,14 +9,14 @@ public class ItemTest {
 
     @Test
     public void testDisplayItem() {
-        Item item = new Item();
+        NormalItem normalItem = new NormalItem();
         String display;
 
-        item.setTitle("Test");
-        item.setStatus("Not done");
-        item.setDueDate(new SimpleDateFormat("20-04-2000"));
-        item.setPriority("High");
-        display = item.displayItem();
+        normalItem.setTitle("Test");
+        normalItem.setStatus("Not done");
+        normalItem.setDueDate(new SimpleDateFormat("20-04-2000"));
+        normalItem.setPriority("High");
+        display = normalItem.displayItem();
 
         assertEquals(display, "Title: Test. Priority: High. Status: Not done. Due Date: 20-04-2000");
     }

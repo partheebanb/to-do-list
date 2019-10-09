@@ -1,8 +1,6 @@
-import model.Item;
+import model.NormalItem;
 import org.junit.jupiter.api.Test;
 import ui.ToDoList;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,11 +9,11 @@ public class ToDoListTest {
     @Test
     public void testCompleteItem() {
         ToDoList toDoList = new ToDoList();
-        Item item = new Item();
+        NormalItem normalItem = new NormalItem();
 
-        toDoList.getTheList().add(item);
+        toDoList.getTheList().add(normalItem);
         toDoList.completeItem(1);
 
-        assertEquals("Complete", item.getStatus());
+        assertEquals("Complete", normalItem.getStatus());
     }
 }

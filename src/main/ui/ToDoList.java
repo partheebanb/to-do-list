@@ -1,6 +1,9 @@
 package ui;
 
 import model.Item;
+import model.LowItem;
+import model.NormalItem;
+import model.UrgentItem;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -83,16 +86,30 @@ public class ToDoList implements Loadable, Saveable {
     // EFFECTS: creates a new item, fills its field and adds it to theList
     private void addItem() {
         size++;
-        Item item = new Item();
+        Item item;
+        String option = "";
 
-        System.out.println("You have chosen to add an item!");
-        item = item.inputItemData();
+        System.out.println("You have chosen to add an item! Please choose a priority: \n 1: Low "
+                + "\n 2: Normal \n 3: High");
+        option = scanner.nextLine();
+        item = handlePriority(option);
+        item.inputItemData();
         theList.add(item);
         displayList();
     }
 
+    private Item handlePriority(String option) {
+        switch (option) {
+            case "1":
+                return new LowItem();
+            case "3":
+                return new UrgentItem();
+            default: return new NormalItem();
+        }
+    }
     // MODIFIES: this
     // EFFECTS: allows the user to choose an item to mark as complete
+
     private void chooseItemToComplete() {
         Integer crossOff = 0;
 
@@ -126,18 +143,18 @@ public class ToDoList implements Loadable, Saveable {
         size = 0;
 
         for (String line : lines) {
-            Item item = new Item();
+            NormalItem normalItem = new NormalItem();
             SimpleDateFormat dueDate;
             size += 1;
 
             ArrayList<String> parts = splitOnSpace(line);
-            item.setTitle(parts.get(0));
-            item.setPriority(parts.get(1));
-            item.setStatus(parts.get(2));
+            normalItem.setTitle(parts.get(0));
+            normalItem.setPriority(parts.get(1));
+            normalItem.setStatus(parts.get(2));
             dueDate = new SimpleDateFormat(parts.get(3));
-            item.setDueDate(dueDate);
+            normalItem.setDueDate(dueDate);
 
-            theList.add(item);
+            theList.add(normalItem);
 
             // obtained some lines of code from FileReaderWriter.java
         }
