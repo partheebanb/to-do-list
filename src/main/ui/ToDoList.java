@@ -93,7 +93,7 @@ public class ToDoList implements Loadable, Saveable {
                 + "\n 2: Normal \n 3: High");
         option = scanner.nextLine();
         item = handlePriority(option);
-        item.inputItemData();
+        item = inputItemData(item);
         theList.add(item);
         displayList();
     }
@@ -107,6 +107,17 @@ public class ToDoList implements Loadable, Saveable {
             default: return new NormalItem();
         }
     }
+
+    // MODIFIES: this
+    // EFFECTS: uses user input to create a new item
+    private Item inputItemData(Item item) {
+        System.out.println("Enter a title for the new item!");
+        item.setTitle(scanner.nextLine());
+        System.out.println("Enter a due date for the new item in the form dd-mm-yyyy");
+        item.setDueDate(new SimpleDateFormat(scanner.nextLine()));
+        return item;
+    }
+
     // MODIFIES: this
     // EFFECTS: allows the user to choose an item to mark as complete
 
@@ -143,18 +154,19 @@ public class ToDoList implements Loadable, Saveable {
         size = 0;
 
         for (String line : lines) {
-            NormalItem normalItem = new NormalItem();
-            SimpleDateFormat dueDate;
+            Item item;
             size += 1;
-
             ArrayList<String> parts = splitOnSpace(line);
-            normalItem.setTitle(parts.get(0));
-            normalItem.setPriority(parts.get(1));
-            normalItem.setStatus(parts.get(2));
-            dueDate = new SimpleDateFormat(parts.get(3));
-            normalItem.setDueDate(dueDate);
 
-            theList.add(normalItem);
+            if (parts.get(1) == "Low") {
+                item = new LowItem();
+            } else if (parts.get(1) == "Normal") {
+                item = new NormalItem();
+            } else {
+                item = new UrgentItem();
+            }
+
+            theList.add(item.createItem(parts.get(0), parts.get(1), parts.get(2), new SimpleDateFormat(parts.get(3))));
 
             // obtained some lines of code from FileReaderWriter.java
         }

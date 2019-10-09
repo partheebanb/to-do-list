@@ -12,7 +12,7 @@ public abstract class Item {
 
     public Item() {
         title = "";
-        status = "";
+        status = "Incomplete";
         priority = "";
         dueDate = new SimpleDateFormat("dd-MM-yyyy");
         scanner = new Scanner(System.in);
@@ -50,17 +50,6 @@ public abstract class Item {
         return priority;
     }
 
-
-    // MODIFIES: this
-    // EFFECTS: uses user input to create a new item
-    public void inputItemData() {
-        this.setStatus("Incomplete");
-        System.out.println("Enter a title for the new item!");
-        this.setTitle(scanner.nextLine());
-        System.out.println("Enter a due date for the new item in the form dd-mm-yyyy");
-        this.setDueDate(new SimpleDateFormat(scanner.nextLine()));
-    }
-
     public Item createItem(String title, String priority, String status, SimpleDateFormat dueDate) {
         this.title = title;
         this.priority = priority;
@@ -68,7 +57,6 @@ public abstract class Item {
         this.dueDate = dueDate;
         return this;
     }
-
 
     //  EFFECTS: returns a string containing all the data in the item formatted for display
     public String displayItem() {
