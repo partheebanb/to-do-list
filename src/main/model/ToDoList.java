@@ -67,9 +67,6 @@ public class ToDoList implements Loadable, Saveable {
         Item normalItem = theList.get(i + 1);
         theList.set(i + 1, theList.get(i));
         theList.set(i, normalItem);
-        if (i > 0) {
-            i--;
-        }
     }
 
     public Item handlePriority(String option) {
