@@ -1,3 +1,5 @@
+package model;
+
 import model.NormalItem;
 import org.junit.jupiter.api.Test;
 import java.text.SimpleDateFormat;

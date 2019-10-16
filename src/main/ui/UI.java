@@ -1,5 +1,6 @@
 package ui;
 
+import exceptions.ExceededMaxSizeException;
 import model.Item;
 import model.ToDoList;
 
@@ -27,7 +28,7 @@ public class UI {
 
         while (true) {
             System.out.println("Please select an option: \n    1: Add an item to the list"
-                    + "\n    2: Mark an item as complete \n    3: Display all items in list \n    4: Load saved list "
+                    + "\n    2: Remove an item \n    3: Display all items in list \n    4: Load saved list "
                     + "\n    5: Save list into file \n    6: Quit");
             option = scanner.nextLine();
 
@@ -53,10 +54,10 @@ public class UI {
                 toDoList.displayList();
                 break;
             case "4":
-                toDoList.load("ListData.txt");
+                toDoList.load("C:\\Users\\bpart\\CPSC 210\\Labs\\project_w8d2b\\data\\listData");
                 break;
             case "5":
-                toDoList.save("ListData.txt");
+                toDoList.save("C:\\Users\\bpart\\CPSC 210\\Labs\\project_w8d2b\\data\\listData");
                 break;
             default: break;
         }
@@ -64,19 +65,24 @@ public class UI {
 
     // MODIFIES: this
     // EFFECTS: creates a new item, fills its field and adds it to theList
-    private void addItem() {
-        toDoList.setSize(toDoList.getSize() + 1);
-        Item item;
-        String option = "";
+    private void addItem() throws IOException {
+        try {
+            toDoList.setSize(toDoList.getSize() + 1);
+            Item item;
+            String option = "";
 
-        System.out.println("You have chosen to add an item! Please choose a priority: \n    1: Low "
-                + "\n    2: Normal \n    3: High");
-        option = scanner.nextLine();
-        item = toDoList.handlePriority(option);
-        item = inputItemData(item);
-        toDoList.getTheList().add(item);
-        toDoList.sort();
-        toDoList.displayList();
+            System.out.println("You have chosen to add an item! Please choose a priority: \n    1: Low "
+                    + "\n    2: Normal \n    3: High");
+            option = scanner.nextLine();
+            item = toDoList.handlePriority(option);
+            item = inputItemData(item);
+            toDoList.getTheList().add(item);
+            toDoList.sort();
+        } catch (ExceededMaxSizeException e) {
+            System.out.println("There are too many items in the todo list. Please try something else.");
+        } finally {
+            toDoList.displayList();
+        }
     }
 
     private Item inputItemData(Item item) {
@@ -94,9 +100,9 @@ public class UI {
         Integer crossOff = 0;
 
         toDoList.displayList();
-        System.out.println("You have chosen mark an item as complete!");
-        System.out.println("Which item would you like to mark as complete?");
+        System.out.println("You have chosen mark an item to remove!");
+        System.out.println("Which item would you like to remove?");
         crossOff = Integer.parseInt(scanner.nextLine());
-        toDoList.completeItem(crossOff);
+        toDoList.removeItem(crossOff);
     }
 }

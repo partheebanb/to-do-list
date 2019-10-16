@@ -1,3 +1,5 @@
+package model;
+
 import model.NormalItem;
 import model.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,8 +24,8 @@ public class SaveableTest {
 
         normalItem.createItem("Test", "High", "Complete", new SimpleDateFormat("20-04-2020"));
         toDoList.getTheList().add(normalItem);
-        toDoList.save("SaveableTestFile");
-        toDoList.load("SaveableTestFile");
+        toDoList.save("C:\\Users\\bpart\\CPSC 210\\Labs\\project_w8d2b\\data\\SaveableTestFile");
+        toDoList.load("C:\\Users\\bpart\\CPSC 210\\Labs\\project_w8d2b\\data\\SaveableTestFile");
 
         assertEquals(normalItem.getTitle(), toDoList.getItem(0).getTitle());
         assertEquals(normalItem.getPriority(), toDoList.getItem(0).getPriority());

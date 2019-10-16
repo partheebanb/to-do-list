@@ -1,3 +1,5 @@
+package model;
+
 import model.NormalItem;
 import model.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +23,7 @@ public class LoadableTest {
         NormalItem normalItem2 = new NormalItem();
         normalItem1.createItem("Test", "High", "Incomplete", new SimpleDateFormat("20-04-2020"));
         normalItem2.createItem("Test2", "Low", "Complete", new SimpleDateFormat("18-12-2019"));
-        toDoList.load("LoadableTestFile");
+        toDoList.load("C:\\Users\\bpart\\CPSC 210\\Labs\\project_w8d2b\\data\\LoadableTestFile");
 
         assertEquals(normalItem1.getTitle(), toDoList.getItem(0).getTitle());
         assertEquals(normalItem1.getPriority(), toDoList.getItem(0).getPriority());

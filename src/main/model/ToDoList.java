@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.ExceededMaxSizeException;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ToDoList implements Loadable, Saveable {
+    private static final int MAX_SIZE = 15;
     private ArrayList<Item> theList;
     private Scanner scanner;
     private Integer size;
@@ -21,7 +24,10 @@ public class ToDoList implements Loadable, Saveable {
         theList = new ArrayList<>();
         scanner = new Scanner(System.in);
         size = 0;
+    }
 
+    public Integer getMaxSize() {
+        return MAX_SIZE;
     }
 
     public ArrayList getTheList() {
@@ -36,8 +42,12 @@ public class ToDoList implements Loadable, Saveable {
         return theList.get(i);
     }
 
-    public void setSize(Integer i) {
-        this.size = i;
+    public void setSize(Integer i) throws ExceededMaxSizeException {
+        if (size < MAX_SIZE) {
+            this.size = i;
+        } else {
+            throw new ExceededMaxSizeException();
+        }
     }
 
     public void sort() {
@@ -76,8 +86,9 @@ public class ToDoList implements Loadable, Saveable {
     //REQUIRES: crossOff <= size of theList
     //MODIFIES: this
     //EFFECTS: marks item in theList at crossOff - 1 as complete
-    public void completeItem(Integer crossOff) {
-        theList.get(crossOff - 1).setStatus("Complete");
+    public void removeItem(Integer crossOff) {
+        theList.remove(crossOff - 1);
+        size -= 1;
     }
 
 
@@ -91,40 +102,59 @@ public class ToDoList implements Loadable, Saveable {
     // MODIFIES: this
     // EFFECTS: deletes all the data in theList and assigns to it all the data in listData
     public void load(String location) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get(location));
-        theList = new ArrayList<>();
-        size = 0;
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(location));
+            theList = new ArrayList<>();
+            size = 0;
 
-        for (String line : lines) {
-            Item item;
-            size += 1;
-            ArrayList<String> parts = splitOnSpace(line);
+            for (String line : lines) {
+                Item item;
+                size += 1;
+                ArrayList<String> parts = splitOnSpace(line);
 
-            if (parts.get(1) == "Low") {
-                item = new LowItem();
-            } else if (parts.get(1) == "Normal") {
-                item = new NormalItem();
-            } else {
-                item = new UrgentItem();
+                item = priorityDecider(parts.get(1));
+
+                item.createItem(parts.get(0), parts.get(1), parts.get(2), new SimpleDateFormat(parts.get(3)));
+                theList.add(item);
+                // obtained some lines of code from FileReaderWriter.java
             }
 
-            theList.add(item.createItem(parts.get(0), parts.get(1), parts.get(2), new SimpleDateFormat(parts.get(3))));
+        } catch (FileNotFoundException e) {
+            System.out.println("This file could not be found. Please enter a valid file location: ");
+            String loc = scanner.nextLine();
+            save(loc);
+        }
+    }
 
-            // obtained some lines of code from FileReaderWriter.java
+    public Item priorityDecider(String priority) {
+        if (priority == "Low") {
+            return new LowItem();
+        } else if (priority == "Normal") {
+            return new NormalItem();
+        } else {
+            return new UrgentItem();
         }
     }
 
     // EFFECTS: saves all the data in toDoList into listData
     public void save(String location) throws FileNotFoundException, UnsupportedEncodingException {
-        PrintWriter writer = new PrintWriter(location, "UTF-8");
+        try {
+            PrintWriter writer = new PrintWriter(location, "UTF-8");
 
-        for (Item item : theList) {
-            String line = item.getTitle() + " " + item.getPriority() + " " + item.getStatus() + " "
-                    + item.getDueDate().toPattern();
-            writer.println(line);
+            for (Item item : theList) {
+                String line = item.getTitle() + " " + item.getPriority() + " " + item.getStatus() + " "
+                        + item.getDueDate().toPattern();
+                writer.println(line);
+            }
+
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("This file could not be found. Please enter a valid file location: ");
+            String loc = scanner.nextLine();
+            save(loc);
+        } finally {
+            System.out.println("File saved successfully!");
         }
-
-        writer.close();
 
         // obtained some lines of code from FileReaderWriter.java
     }
