@@ -2,11 +2,11 @@ package ui;
 
 import exceptions.ExceededMaxSizeException;
 import exceptions.InvalidChoiceException;
-import model.*;
-import model.ExamPrepList;
-import model.GeneralToDoList;
-import model.HomeWorkList;
-import model.ToDoList;
+import model.items.Item;
+import model.lists.ExamPrepList;
+import model.lists.GeneralToDoList;
+import model.lists.HomeWorkList;
+import model.lists.ToDoList;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

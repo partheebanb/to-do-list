@@ -1,6 +1,12 @@
 package model;
 
 import exceptions.ExceededMaxSizeException;
+import model.items.Item;
+import model.items.LowItem;
+import model.items.NormalItem;
+import model.items.UrgentItem;
+import model.lists.GeneralToDoList;
+import model.lists.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

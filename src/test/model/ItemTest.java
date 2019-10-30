@@ -1,5 +1,7 @@
 package model;
 
+import model.items.NormalItem;
+import model.lists.GeneralToDoList;
 import org.junit.jupiter.api.Test;
 import java.text.SimpleDateFormat;
 

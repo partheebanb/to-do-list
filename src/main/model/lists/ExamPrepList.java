@@ -1,4 +1,4 @@
-package model;
+package model.lists;
 
 public class ExamPrepList extends ToDoList {
     public ExamPrepList() {

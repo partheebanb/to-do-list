@@ -1,4 +1,4 @@
-package model;
+package model.lists;
 
 public class HomeWorkList extends ToDoList {
 

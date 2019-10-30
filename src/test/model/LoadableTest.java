@@ -1,5 +1,8 @@
 package model;
 
+import model.items.NormalItem;
+import model.lists.GeneralToDoList;
+import model.lists.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;

@@ -1,4 +1,6 @@
-package model;
+package model.items;
+
+import model.lists.ToDoList;
 
 import java.text.SimpleDateFormat;
 import java.util.Scanner;

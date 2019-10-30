@@ -1,7 +1,8 @@
-package model;
+package model.lists;
 
 import exceptions.ExceededMaxSizeException;
 import model.*;
+import model.items.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
