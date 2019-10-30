@@ -11,23 +11,23 @@ public class ToDoListTest {
 
     @BeforeEach
     public void declare() {
-        toDoList = new ToDoList();
+        toDoList = new GeneralToDoList();
     }
     @Test
     public void testCompleteItem() {
-        NormalItem normalItem = new NormalItem();
+        NormalItem normalItem = new NormalItem(new GeneralToDoList());
 
         toDoList.getTheList().add(normalItem);
         toDoList.removeItem(1);
 
-        assertEquals("Complete", normalItem.getStatus());
+        assertEquals(toDoList.getTheList().size(), 0);
     }
 
     @Test
     public void testSort() throws ExceededMaxSizeException {
-        Item item1 = new LowItem();
-        Item item2 = new NormalItem();
-        Item item3 = new UrgentItem();
+        Item item1 = new LowItem(new GeneralToDoList());
+        Item item2 = new NormalItem(new GeneralToDoList());
+        Item item3 = new UrgentItem(new GeneralToDoList());
         toDoList.getTheList().add(item1);
         toDoList.getTheList().add(item2);
         toDoList.getTheList().add(item3);
@@ -43,8 +43,8 @@ public class ToDoListTest {
 
     @Test
     public void testSwitch() {
-        Item item1 = new NormalItem();
-        Item item2 = new NormalItem();
+        Item item1 = new NormalItem(new GeneralToDoList());
+        Item item2 = new NormalItem(new GeneralToDoList());
 
         toDoList.getTheList().add(item1);
         toDoList.getTheList().add(item2);

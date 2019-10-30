@@ -4,8 +4,6 @@ import exceptions.ExceededMaxSizeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ExceptionsTest {
@@ -13,7 +11,7 @@ public class ExceptionsTest {
 
     @BeforeEach
     public void before() {
-        toDoList = new ToDoList();
+        toDoList = new GeneralToDoList();
     }
     @Test
     public void TestExceededMaxSizeException() throws ExceededMaxSizeException {

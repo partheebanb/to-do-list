@@ -1,7 +1,11 @@
 package ui;
 
 import exceptions.ExceededMaxSizeException;
-import model.Item;
+import exceptions.InvalidChoiceException;
+import model.*;
+import model.ExamPrepList;
+import model.GeneralToDoList;
+import model.HomeWorkList;
 import model.ToDoList;
 
 import java.io.IOException;
@@ -11,16 +15,57 @@ import java.util.Scanner;
 public class UI {
 
     private Scanner scanner;
-    public ToDoList toDoList;
+    public ToDoList currentToDoList;
+    public ToDoList examPrepList;
+    public ToDoList homeWorkList;
+    public ToDoList generalToDoList;
 
     public UI() throws IOException {
         scanner = new Scanner(System.in);
-        toDoList = new ToDoList();
-        this.menu();
+        generalToDoList = new GeneralToDoList();
+        examPrepList = new ExamPrepList();
+        homeWorkList = new HomeWorkList();
+        currentToDoList = generalToDoList;
+        this.chooseListMenu();
     }
 
     public static void main(String[] args) throws IOException {
         UI ui = new UI();
+    }
+
+    public void setCurrentToDoList(String option) throws InvalidChoiceException {
+        if (option.equals("1")) {
+            currentToDoList = currentToDoList;
+        } else if (option.equals("2")) {
+            currentToDoList = examPrepList;
+        } else if (option.equals("3")) {
+            currentToDoList = homeWorkList;
+        } else {
+            throw new InvalidChoiceException();
+        }
+    }
+
+    private void chooseListMenu() throws IOException {
+        String option = "";
+        while (true) {
+            System.out.println("Please choose a list: \n    1: General \n    2: Exam prep \n    3: Homework "
+                    + "\n    4: Quit");
+            option = scanner.nextLine();
+
+            if (option.equals("4")) {
+                System.out.println("You have chosen to quit!");
+                break;
+            }
+
+            try {
+                setCurrentToDoList(option);
+                this.menu();
+                break;
+            } catch (InvalidChoiceException e) {
+                System.out.println("Choose a valid option!");
+            }
+        }
+
     }
 
     private void menu() throws IOException {
@@ -29,10 +74,13 @@ public class UI {
         while (true) {
             System.out.println("Please select an option: \n    1: Add an item to the list"
                     + "\n    2: Remove an item \n    3: Display all items in list \n    4: Load saved list "
-                    + "\n    5: Save list into file \n    6: Quit");
+                    + "\n    5: Save list into file \n    6: Choose another list \n    7: Quit");
             option = scanner.nextLine();
 
             if (option.equals("6")) {
+                chooseListMenu();
+                break;
+            } else if (option.equals("7")) {
                 System.out.println("You have chosen to quit!");
                 break;
             }
@@ -43,45 +91,39 @@ public class UI {
 
     // EFFECTS: handles all user input except for quiting
     public void handleInput(String option) throws IOException {
-        switch (option) {
-            case "1":
-                addItem();
-                break;
-            case "2":
-                chooseItemToComplete();
-                break;
-            case "3":
-                toDoList.displayList();
-                break;
-            case "4":
-                toDoList.load("C:\\Users\\bpart\\CPSC 210\\Labs\\project_w8d2b\\data\\listData");
-                break;
-            case "5":
-                toDoList.save("C:\\Users\\bpart\\CPSC 210\\Labs\\project_w8d2b\\data\\listData");
-                break;
-            default: break;
+        if (option.equals("1")) {
+            addItem();
+        } else if (option.equals("2")) {
+            chooseItemToComplete();
+        } else if (option.equals("3")) {
+            currentToDoList.displayList();
+        } else if (option.equals("4")) {
+            currentToDoList.load();
+        } else if (option.equals("5")) {
+            currentToDoList.save();
         }
+
     }
 
     // MODIFIES: this
     // EFFECTS: creates a new item, fills its field and adds it to theList
-    private void addItem() throws IOException {
+    private void addItem() {
         try {
-            toDoList.setSize(toDoList.getSize() + 1);
+            currentToDoList.setSize(currentToDoList.getSize() + 1);
             Item item;
-            String option = "";
+            String option;
 
             System.out.println("You have chosen to add an item! Please choose a priority: \n    1: Low "
                     + "\n    2: Normal \n    3: High");
             option = scanner.nextLine();
-            item = toDoList.handlePriority(option);
-            item = inputItemData(item);
-            toDoList.getTheList().add(item);
-            toDoList.sort();
+            item = currentToDoList.handlePriority(option);
+            inputItemData(item);
+            currentToDoList.addItem(item);
+            currentToDoList.sort();
         } catch (ExceededMaxSizeException e) {
             System.out.println("There are too many items in the todo list. Please try something else.");
         } finally {
-            toDoList.displayList();
+            currentToDoList.displayList();
         }
     }
 
@@ -97,12 +139,12 @@ public class UI {
     // EFFECTS: allows the user to choose an item to mark as complete
 
     private void chooseItemToComplete() {
-        Integer crossOff = 0;
+        Integer crossOff;
 
-        toDoList.displayList();
+        currentToDoList.displayList();
         System.out.println("You have chosen mark an item to remove!");
         System.out.println("Which item would you like to remove?");
         crossOff = Integer.parseInt(scanner.nextLine());
-        toDoList.removeItem(crossOff);
+        currentToDoList.removeItem(crossOff);
     }
 }

@@ -1,7 +1,5 @@
 package model;
 
-import model.NormalItem;
-import model.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
@@ -14,16 +12,19 @@ public class LoadableTest {
 
     @BeforeEach
     public void initialise() {
-        toDoList = new ToDoList();
+        toDoList = new GeneralToDoList();
     }
 
     @Test
     public void testLoad() throws IOException {
-        NormalItem normalItem1 = new NormalItem();
-        NormalItem normalItem2 = new NormalItem();
+        NormalItem normalItem1 = new NormalItem(new GeneralToDoList());
+        NormalItem normalItem2 = new NormalItem(new GeneralToDoList());
         normalItem1.createItem("Test", "High", "Incomplete", new SimpleDateFormat("20-04-2020"));
         normalItem2.createItem("Test2", "Low", "Complete", new SimpleDateFormat("18-12-2019"));
-        toDoList.load("C:\\Users\\bpart\\CPSC 210\\Labs\\project_w8d2b\\data\\LoadableTestFile");
+        toDoList.getTheList().add(normalItem1);
+        toDoList.getTheList().add(normalItem2);
+        toDoList.save();
+        toDoList.load();
 
         assertEquals(normalItem1.getTitle(), toDoList.getItem(0).getTitle());
         assertEquals(normalItem1.getPriority(), toDoList.getItem(0).getPriority());

@@ -9,13 +9,15 @@ public abstract class Item {
     protected String priority;
     protected SimpleDateFormat dueDate;
     protected Scanner scanner;
+    protected ToDoList toDoList;
 
-    public Item() {
+    public Item(ToDoList toDoList) {
         title = "";
         status = "Incomplete";
         priority = "";
         dueDate = new SimpleDateFormat("dd-MM-yyyy");
         scanner = new Scanner(System.in);
+        this.toDoList = toDoList;
     }
 
     public void setTitle(String title) {
