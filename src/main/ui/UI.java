@@ -49,11 +49,10 @@ public class UI {
         String option = "";
         while (true) {
             System.out.println("Please choose a list: \n    1: General \n    2: Exam prep \n    3: Homework "
-                    + "\n    4: Quit");
+                    + "\n    9: Quit");
             option = scanner.nextLine();
 
-            if (option.equals("4")) {
-                System.out.println("You have chosen to quit!");
+            if (checkQuit(option)) {
                 break;
             }
 
@@ -68,20 +67,27 @@ public class UI {
 
     }
 
+    private boolean checkQuit(String option) {
+        if (option.equals("9")) {
+            System.out.println("You have chosen to quit!");
+            return true;
+        }
+        return false;
+    }
+
     private void menu() throws IOException {
         String option = "";
 
         while (true) {
             System.out.println("Please select an option: \n    1: Add an item to the list"
                     + "\n    2: Remove an item \n    3: Display all items in list \n    4: Load saved list "
-                    + "\n    5: Save list into file \n    6: Choose another list \n    7: Quit");
+                    + "\n    5: Save list into file \n    6: Choose another list \n    9: Quit");
             option = scanner.nextLine();
 
             if (option.equals("6")) {
                 chooseListMenu();
                 break;
-            } else if (option.equals("7")) {
-                System.out.println("You have chosen to quit!");
+            } else if (checkQuit(option)) {
                 break;
             }
 
@@ -92,7 +98,11 @@ public class UI {
     // EFFECTS: handles all user input except for quiting
     public void handleInput(String option) throws IOException {
         if (option.equals("1")) {
-            addItem();
+            try {
+                addItem();
+            } catch (ExceededMaxSizeException e) {
+                System.out.println("There are too many items in the todo list. Please try something else.");
+            }
         } else if (option.equals("2")) {
             chooseItemToComplete();
         } else if (option.equals("3")) {
@@ -107,24 +117,18 @@ public class UI {
 
     // MODIFIES: this
     // EFFECTS: creates a new item, fills its field and adds it to theList
-    private void addItem() {
-        try {
-            currentToDoList.setSize(currentToDoList.getSize() + 1);
-            Item item;
-            String option;
+    private void addItem() throws ExceededMaxSizeException {
+        Item item;
+        String priority;
 
-            System.out.println("You have chosen to add an item! Please choose a priority: \n    1: Low "
-                    + "\n    2: Normal \n    3: High");
-            option = scanner.nextLine();
-            item = currentToDoList.handlePriority(option);
-            inputItemData(item);
-            currentToDoList.addItem(item);
-            currentToDoList.sort();
-        } catch (ExceededMaxSizeException e) {
-            System.out.println("There are too many items in the todo list. Please try something else.");
-        } finally {
-            currentToDoList.displayList();
-        }
+        System.out.println("You have chosen to add an item! Please choose a priority: \n    1: Low "
+                + "\n    2: Normal \n    3: High");
+        priority = scanner.nextLine();
+        item = currentToDoList.handlePriority(priority);
+        inputItemData(item);
+        currentToDoList.addItem(item);
+        currentToDoList.displayList();
+
     }
 
     private Item inputItemData(Item item) {
@@ -142,7 +146,7 @@ public class UI {
         Integer crossOff;
 
         currentToDoList.displayList();
-        System.out.println("You have chosen mark an item to remove!");
+        System.out.println("You have chosen to remove an item!");
         System.out.println("Which item would you like to remove?");
         crossOff = Integer.parseInt(scanner.nextLine());
         currentToDoList.removeItem(crossOff);
