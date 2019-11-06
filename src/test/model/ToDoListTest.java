@@ -31,12 +31,12 @@ public class ToDoListTest {
 
     @Test
     public void testSort() throws ExceededMaxSizeException {
-        Item item1 = new LowItem(new GeneralToDoList());
-        Item item2 = new NormalItem(new GeneralToDoList());
-        Item item3 = new UrgentItem(new GeneralToDoList());
-        toDoList.addItem(item1);
-        toDoList.addItem(item2);
+        Item item1 = new LowItem(toDoList);
+        Item item2 = new NormalItem(toDoList);
+        Item item3 = new UrgentItem(toDoList);
         toDoList.addItem(item3);
+        toDoList.addItem(item2);
+        toDoList.addItem(item1);
 
         toDoList.sort();
         assertEquals((toDoList.getTheList().get(0)), item3);

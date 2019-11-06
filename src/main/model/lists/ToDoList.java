@@ -73,16 +73,16 @@ public abstract class ToDoList implements Loadable, Saveable {
         theList.set(i, normalItem);
     }
 
-//    public Item handlePriority(String option) {
-//        switch (option) {
-//            case "1":
-//                return new LowItem(this);
-//            case "3":
-//                return new UrgentItem(this);
-//            default:
-//                return new NormalItem(this);
-//        }
-//    }
+    public Item handlePriority(String option) {
+        switch (option) {
+            case "1":
+                return new LowItem(this);
+            case "3":
+                return new UrgentItem(this);
+            default:
+                return new NormalItem(this);
+        }
+    }
 
     //REQUIRES: crossOff <= size of theList
     //MODIFIES: this
@@ -107,6 +107,10 @@ public abstract class ToDoList implements Loadable, Saveable {
         theList = new ArrayList<>();
         size = 0;
 
+        convertLinesToItems(lines);
+    }
+
+    private void convertLinesToItems(List<String> lines) {
         for (String line : lines) {
             Item item;
             size += 1;
