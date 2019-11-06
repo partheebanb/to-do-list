@@ -106,38 +106,44 @@ public abstract class ToDoList implements Loadable, Saveable {
         List<String> lines = Files.readAllLines(Paths.get(location));
         theList = new ArrayList<>();
         size = 0;
-        convertLinesToItems(lines);
-    }
 
-    //HERE
-    private void convertLinesToItems(List<String> lines) {
         for (String line : lines) {
-            Item item = new NormalItem(this);
+            Item item;
             size += 1;
             ArrayList<String> parts = splitOnSpace(line);
 
-            item = item.convertPartsToItems(parts);
+            item = priorityDecider(parts.get(1));
+
+            item.createItem(parts.get(0), parts.get(1), parts.get(2), new SimpleDateFormat(parts.get(3)));
             theList.add(item);
             // obtained some lines of code from FileReaderWriter.java
         }
     }
 
+    public Item priorityDecider(String priority) {
+        if (priority == "Low") {
+            return new LowItem(this);
+        } else if (priority == "Normal") {
+            return new NormalItem(this);
+        } else {
+            return new UrgentItem(this);
+        }
+    }
 
     // EFFECTS: saves all the data in toDoList into generalToDoList
     public void save() throws FileNotFoundException, UnsupportedEncodingException {
         PrintWriter writer = new PrintWriter(location, "UTF-8");
-        formatAndSaveItems(writer);
-        writer.close();
-        System.out.println("File saved successfully!");
-        // obtained some lines of code from FileReaderWriter.java
-    }
 
-    //HERE * 2
-    private void formatAndSaveItems(PrintWriter writer) {
         for (Item item : theList) {
-            String line = item.formatItem(item);
+            String line = item.getTitle() + " " + item.getPriority() + " " + item.getStatus() + " "
+                    + item.getDueDate().toPattern();
             writer.println(line);
         }
+
+        writer.close();
+
+        System.out.println("File saved successfully!");
+        // obtained some lines of code from FileReaderWriter.java
     }
 
 
@@ -148,11 +154,9 @@ public abstract class ToDoList implements Loadable, Saveable {
         return new ArrayList<>(Arrays.asList(splits));
     }
 
-    public  void addItem(Item item) throws ExceededMaxSizeException {
+    public  void addItem(Item item) {
         if (!theList.contains(item)) {
-            this.setSize(size++);
             theList.add(item);
-            sort();
         }
     }
 }
