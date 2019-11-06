@@ -35,6 +35,6 @@ public class ItemTest {
         item = item.priorityDecider("Normal");
         assertEquals(item.getPriority(), "Normal");
         item = item.priorityDecider("Urgent");
-        assertEquals(item.getPriority(), "Urgent");
+        assertEquals(item.getPriority(), "URGENT");
     }
 }
