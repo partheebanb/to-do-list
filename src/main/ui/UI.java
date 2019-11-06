@@ -3,6 +3,8 @@ package ui;
 import exceptions.ExceededMaxSizeException;
 import exceptions.InvalidChoiceException;
 import model.items.Item;
+import model.items.LowItem;
+import model.items.NormalItem;
 import model.lists.ExamPrepList;
 import model.lists.GeneralToDoList;
 import model.lists.HomeWorkList;
@@ -118,13 +120,13 @@ public class UI {
     // MODIFIES: this
     // EFFECTS: creates a new item, fills its field and adds it to theList
     private void addItem() throws ExceededMaxSizeException {
-        Item item;
+        Item item = new NormalItem(currentToDoList);
         String priority;
 
         System.out.println("You have chosen to add an item! Please choose a priority: \n    1: Low "
                 + "\n    2: Normal \n    3: High");
         priority = scanner.nextLine();
-        item = currentToDoList.handlePriority(priority);
+        item = item.priorityDecider(priority);
         inputItemData(item);
         currentToDoList.addItem(item);
         currentToDoList.displayList();
