@@ -34,10 +34,9 @@ public class ToDoListTest {
         Item item1 = new LowItem(new GeneralToDoList());
         Item item2 = new NormalItem(new GeneralToDoList());
         Item item3 = new UrgentItem(new GeneralToDoList());
-        toDoList.getTheList().add(item1);
-        toDoList.getTheList().add(item2);
-        toDoList.getTheList().add(item3);
-        toDoList.setSize(3);
+        toDoList.addItem(item1);
+        toDoList.addItem(item2);
+        toDoList.addItem(item3);
 
         toDoList.sort();
         assertEquals((toDoList.getTheList().get(0)), item3);
@@ -48,15 +47,15 @@ public class ToDoListTest {
     }
 
     @Test
-    public void testSwitch() {
+    public void testSwitch() throws ExceededMaxSizeException {
         Item item1 = new NormalItem(new GeneralToDoList());
         Item item2 = new NormalItem(new GeneralToDoList());
 
-        toDoList.getTheList().add(item1);
-        toDoList.getTheList().add(item2);
+        toDoList.addItem(item1);
+        toDoList.addItem(item2);
         toDoList.switchItems(0);
-        assertEquals(toDoList.getTheList().get(0), item2);
-        assertEquals(toDoList.getTheList().get(1), item1);
+        assertEquals(toDoList.getItem(0), item2);
+        assertEquals(toDoList.getItem(1), item1);
     }
 }
 
