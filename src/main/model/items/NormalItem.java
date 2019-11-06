@@ -4,8 +4,8 @@ import model.lists.ToDoList;
 
 public class NormalItem extends Item {
 
-    public NormalItem(ToDoList toDoList) {
-        super(toDoList);
+    public NormalItem() {
+        super();
         this.setPriority("Normal");
     }
 }

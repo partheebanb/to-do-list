@@ -4,8 +4,8 @@ import model.lists.ToDoList;
 
 public class LowItem extends Item {
 
-    public LowItem(ToDoList toDoList) {
-        super(toDoList);
+    public LowItem() {
+        super();
         this.setPriority("Low");
     }
 }

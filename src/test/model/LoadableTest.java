@@ -20,8 +20,8 @@ public class LoadableTest {
 
     @Test
     public void testLoad() throws IOException {
-        NormalItem normalItem1 = new NormalItem(new GeneralToDoList());
-        NormalItem normalItem2 = new NormalItem(new GeneralToDoList());
+        NormalItem normalItem1 = new NormalItem();
+        NormalItem normalItem2 = new NormalItem();
         normalItem1.createItem("Test", "High", "Incomplete", new SimpleDateFormat("20-04-2020"));
         normalItem2.createItem("Test2", "Low", "Complete", new SimpleDateFormat("18-12-2019"));
         toDoList.getTheList().add(normalItem1);

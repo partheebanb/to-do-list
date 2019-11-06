@@ -109,12 +109,11 @@ public class UI {
     // EFFECTS: creates a new item, fills its field and adds it to theList
     private void addItem() {
         try {
-            currentToDoList.setSize(currentToDoList.getSize() + 1);
             Item item;
             String option;
 
             System.out.println("You have chosen to add an item! Please choose a priority: \n    1: Low "
-                    + "\n    2: Normal \n    3: High");
+                    + "\n    2: Normal \n    3: Urgent");
             option = scanner.nextLine();
             item = currentToDoList.handlePriority(option);
             inputItemData(item);

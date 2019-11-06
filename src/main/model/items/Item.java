@@ -13,17 +13,20 @@ public abstract class Item {
     protected Scanner scanner;
     protected ToDoList toDoList;
 
-    public Item(ToDoList toDoList) {
+    public Item() {
         title = "";
         status = "Incomplete";
         priority = "";
         dueDate = new SimpleDateFormat("dd-MM-yyyy");
         scanner = new Scanner(System.in);
-        this.toDoList = toDoList;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setToDoList(ToDoList toDoList) {
+        this.toDoList = toDoList;
     }
 
     public void setStatus(String status) {

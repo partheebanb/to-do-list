@@ -5,25 +5,30 @@ import model.items.Item;
 import model.items.LowItem;
 import model.items.NormalItem;
 import model.items.UrgentItem;
-import model.lists.GeneralToDoList;
+import model.lists.ExamPrepList;
 import model.lists.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class ToDoListTest {
     ToDoList toDoList;
 
     @BeforeEach
     public void declare() {
-        toDoList = new GeneralToDoList();
+        toDoList = new ExamPrepList();
     }
     @Test
     public void testCompleteItem() {
-        NormalItem normalItem = new NormalItem(new GeneralToDoList());
+        NormalItem normalItem = new NormalItem();
 
-        toDoList.getTheList().add(normalItem);
+        try {
+            toDoList.addItem(normalItem);
+        } catch (ExceededMaxSizeException e) {
+            fail();
+        }
         toDoList.removeItem(1);
 
         assertEquals(toDoList.getTheList().size(), 0);
@@ -31,12 +36,12 @@ public class ToDoListTest {
 
     @Test
     public void testSort() throws ExceededMaxSizeException {
-        Item item1 = new LowItem(toDoList);
-        Item item2 = new NormalItem(toDoList);
-        Item item3 = new UrgentItem(toDoList);
-        toDoList.addItem(item3);
-        toDoList.addItem(item2);
+        Item item1 = new LowItem();
+        Item item2 = new NormalItem();
+        Item item3 = new UrgentItem();
         toDoList.addItem(item1);
+        toDoList.addItem(item2);
+        toDoList.addItem(item3);
 
         toDoList.sort();
         assertEquals((toDoList.getTheList().get(0)), item3);
@@ -48,8 +53,8 @@ public class ToDoListTest {
 
     @Test
     public void testSwitch() throws ExceededMaxSizeException {
-        Item item1 = new NormalItem(new GeneralToDoList());
-        Item item2 = new NormalItem(new GeneralToDoList());
+        Item item1 = new NormalItem();
+        Item item2 = new NormalItem();
 
         toDoList.addItem(item1);
         toDoList.addItem(item2);

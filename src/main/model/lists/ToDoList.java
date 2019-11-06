@@ -55,8 +55,8 @@ public abstract class ToDoList implements Loadable, Saveable {
     }
 
     public void sort() {
-        for (int j = 0; j < size - 1; j++) {
-            for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < theList.size() - 1; j++) {
+            for (int i = 0; i < theList.size() - 1; i++) {
                 if (!(theList.get(i).getPriority() == "URGENT") && (theList.get(i + 1).getPriority() == "URGENT")) {
                     switchItems(i);
                 }
@@ -76,11 +76,11 @@ public abstract class ToDoList implements Loadable, Saveable {
     public Item handlePriority(String option) {
         switch (option) {
             case "1":
-                return new LowItem(this);
+                return new LowItem();
             case "3":
-                return new UrgentItem(this);
+                return new UrgentItem();
             default:
-                return new NormalItem(this);
+                return new NormalItem();
         }
     }
 
@@ -126,11 +126,11 @@ public abstract class ToDoList implements Loadable, Saveable {
 
     public Item priorityDecider(String priority) {
         if (priority == "Low") {
-            return new LowItem(this);
+            return new LowItem();
         } else if (priority == "Normal") {
-            return new NormalItem(this);
+            return new NormalItem();
         } else {
-            return new UrgentItem(this);
+            return new UrgentItem();
         }
     }
 
@@ -158,9 +158,16 @@ public abstract class ToDoList implements Loadable, Saveable {
         return new ArrayList<>(Arrays.asList(splits));
     }
 
-    public  void addItem(Item item) {
+    public  void addItem(Item item) throws ExceededMaxSizeException {
         if (!theList.contains(item)) {
-            theList.add(item);
+            if (size++ > MAX_SIZE) {
+                throw new ExceededMaxSizeException();
+            } else {
+                theList.add(item);
+                item.setToDoList(this);
+                sort();
+                size++;
+            }
         }
     }
 }

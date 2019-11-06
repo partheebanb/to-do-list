@@ -12,7 +12,7 @@ public class ItemTest {
 
     @Test
     public void testDisplayItem() {
-        NormalItem normalItem = new NormalItem( new GeneralToDoList());
+        NormalItem normalItem = new NormalItem();
         String display;
 
         normalItem.setTitle("Test");
