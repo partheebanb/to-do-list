@@ -11,12 +11,9 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-public abstract class ToDoList implements Loadable, Saveable {
+public abstract class ToDoList extends Observable implements Loadable, Saveable {
     private static final int MAX_SIZE = 15;
     private ArrayList<Item> theList;
     private Scanner scanner;
@@ -28,6 +25,7 @@ public abstract class ToDoList implements Loadable, Saveable {
         scanner = new Scanner(System.in);
         size = 0;
         this.location = location;
+        addObserver(new ToDoListWatcher());
     }
 
     public Integer getMaxSize() {
@@ -89,6 +87,8 @@ public abstract class ToDoList implements Loadable, Saveable {
     //EFFECTS: marks item in theList at crossOff - 1 as complete
     public void removeItem(Integer crossOff) {
         theList.remove(crossOff - 1);
+        setChanged();
+        notifyObservers();
         size -= 1;
     }
 
@@ -113,11 +113,10 @@ public abstract class ToDoList implements Loadable, Saveable {
     private void convertLinesToItems(List<String> lines) {
         for (String line : lines) {
             Item item;
+
             size += 1;
             ArrayList<String> parts = splitOnSpace(line);
-
             item = priorityDecider(parts.get(1));
-
             item.createItem(parts.get(0), parts.get(1), parts.get(2), new SimpleDateFormat(parts.get(3)));
             theList.add(item);
             // obtained some lines of code from FileReaderWriter.java
@@ -143,9 +142,7 @@ public abstract class ToDoList implements Loadable, Saveable {
                     + item.getDueDate().toPattern();
             writer.println(line);
         }
-
         writer.close();
-
         System.out.println("File saved successfully!");
         // obtained some lines of code from FileReaderWriter.java
     }
@@ -166,7 +163,6 @@ public abstract class ToDoList implements Loadable, Saveable {
                 theList.add(item);
                 item.setToDoList(this);
                 sort();
-                size++;
             }
         }
     }

@@ -7,6 +7,7 @@ import model.lists.ExamPrepList;
 import model.lists.GeneralToDoList;
 import model.lists.HomeWorkList;
 import model.lists.ToDoList;
+import network.Welcome;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -30,6 +31,7 @@ public class UI {
     }
 
     public static void main(String[] args) throws IOException {
+        Welcome.welcome();
         UI ui = new UI();
     }
 
@@ -141,7 +143,7 @@ public class UI {
         Integer crossOff;
 
         currentToDoList.displayList();
-        System.out.println("You have chosen mark an item to remove!");
+        System.out.println("You have chosen to remove an item!");
         System.out.println("Which item would you like to remove?");
         crossOff = Integer.parseInt(scanner.nextLine());
         currentToDoList.removeItem(crossOff);
