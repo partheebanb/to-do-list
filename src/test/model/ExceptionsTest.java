@@ -1,7 +1,6 @@
 package model;
 
 import exceptions.ExceededMaxSizeException;
-import model.lists.GeneralToDoList;
 import model.lists.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,7 @@ public class ExceptionsTest {
 
     @BeforeEach
     public void before() {
-        toDoList = new GeneralToDoList();
+        toDoList = new ToDoList("bruh");
     }
     @Test
     public void TestExceededMaxSizeException() throws ExceededMaxSizeException {

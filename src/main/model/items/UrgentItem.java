@@ -8,4 +8,10 @@ public class UrgentItem extends Item {
         super();
         this.setPriority("URGENT");
     }
+
+    @Override
+    public String displayItem() {
+        return ("!!! " + title + " " + dueDate.toPattern());
+
+    }
 }

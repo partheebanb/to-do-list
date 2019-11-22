@@ -5,7 +5,6 @@ import model.items.Item;
 import model.items.LowItem;
 import model.items.NormalItem;
 import model.items.UrgentItem;
-import model.lists.ExamPrepList;
 import model.lists.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ public class ToDoListTest {
 
     @BeforeEach
     public void declare() {
-        toDoList = new ExamPrepList();
+        toDoList = new ToDoList("bruh");
     }
     @Test
     public void testCompleteItem() {

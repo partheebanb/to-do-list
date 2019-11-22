@@ -8,4 +8,10 @@ public class NormalItem extends Item {
         super();
         this.setPriority("Normal");
     }
+
+    @Override
+    public String displayItem() {
+        return ("!! " + title + " " + dueDate.toPattern());
+
+    }
 }

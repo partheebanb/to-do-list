@@ -8,4 +8,9 @@ public class LowItem extends Item {
         super();
         this.setPriority("Low");
     }
+
+    @Override
+    public String displayItem() {
+        return ("! " + title + " " + dueDate.toPattern());
+    }
 }

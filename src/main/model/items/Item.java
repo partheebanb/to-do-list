@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public abstract class Item {
     protected String title;
-    protected String status;
     protected String priority;
     protected SimpleDateFormat dueDate;
     protected Scanner scanner;
@@ -15,7 +14,6 @@ public abstract class Item {
 
     public Item() {
         title = "";
-        status = "Incomplete";
         priority = "";
         dueDate = new SimpleDateFormat("dd-MM-yyyy");
         scanner = new Scanner(System.in);
@@ -27,10 +25,6 @@ public abstract class Item {
 
     public void setToDoList(ToDoList toDoList) {
         this.toDoList = toDoList;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public void setDueDate(SimpleDateFormat dueDate) {
@@ -45,10 +39,6 @@ public abstract class Item {
         return title;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
     public SimpleDateFormat getDueDate() {
         return dueDate;
     }
@@ -57,17 +47,13 @@ public abstract class Item {
         return priority;
     }
 
-    public Item createItem(String title, String priority, String status, SimpleDateFormat dueDate) {
+    public Item createItem(String title, String priority, SimpleDateFormat dueDate) {
         this.title = title;
         this.priority = priority;
-        this.status = status;
         this.dueDate = dueDate;
         return this;
     }
 
     //  EFFECTS: returns a string containing all the data in the item formatted for display
-    public String displayItem() {
-        return ("Title: " + getTitle() + ". Priority: " + getPriority()
-                + ". Status: " + getStatus() + ". Due Date: " + (getDueDate()).toPattern());
-    }
+    public abstract String displayItem();
 }

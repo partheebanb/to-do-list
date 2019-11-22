@@ -4,27 +4,33 @@ import exceptions.ExceededMaxSizeException;
 import model.*;
 import model.items.*;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public abstract class ToDoList extends Observable implements Loadable, Saveable {
+public class ToDoList extends Observable implements Loadable, Saveable {
     private static final int MAX_SIZE = 15;
     private ArrayList<Item> theList;
     private Scanner scanner;
     private Integer size;
     private String location;
+    private File file;
+    private String name;
 
-    public ToDoList(String location) {
+    public ToDoList(String name) {
         theList = new ArrayList<>();
         scanner = new Scanner(System.in);
         size = 0;
-        this.location = location;
+        this.name = name;
+        location = "C:\\Users\\bpart\\CPSC 210\\Labs\\project_w8d2b\\data\\" + name;
+        try {
+            load();
+        } catch (IOException e) {
+            new File(location);
+        }
         addObserver(new ToDoListWatcher());
     }
 
@@ -42,6 +48,10 @@ public abstract class ToDoList extends Observable implements Loadable, Saveable 
 
     public Item getItem(Integer i) {
         return theList.get(i);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setSize(Integer i) throws ExceededMaxSizeException {
@@ -117,13 +127,13 @@ public abstract class ToDoList extends Observable implements Loadable, Saveable 
             size += 1;
             ArrayList<String> parts = splitOnSpace(line);
             item = priorityDecider(parts.get(1));
-            item.createItem(parts.get(0), parts.get(1), parts.get(2), new SimpleDateFormat(parts.get(3)));
+            item.createItem(parts.get(0), parts.get(1), new SimpleDateFormat(parts.get(2)));
             theList.add(item);
             // obtained some lines of code from FileReaderWriter.java
         }
     }
 
-    public Item priorityDecider(String priority) {
+    private Item priorityDecider(String priority) {
         if (priority == "Low") {
             return new LowItem();
         } else if (priority == "Normal") {
@@ -138,7 +148,7 @@ public abstract class ToDoList extends Observable implements Loadable, Saveable 
         PrintWriter writer = new PrintWriter(location, "UTF-8");
 
         for (Item item : theList) {
-            String line = item.getTitle() + " " + item.getPriority() + " " + item.getStatus() + " "
+            String line = item.getTitle() + " " + item.getPriority() + " "
                     + item.getDueDate().toPattern();
             writer.println(line);
         }
@@ -150,7 +160,7 @@ public abstract class ToDoList extends Observable implements Loadable, Saveable 
 
     // obtained function from FileReaderWriter.java
     // EFFECTS: splits up a string at spaces and puts the sub-strings into an arraylist
-    public static ArrayList<String> splitOnSpace(String line) {
+    private static ArrayList<String> splitOnSpace(String line) {
         String[] splits = line.split(" ");
         return new ArrayList<>(Arrays.asList(splits));
     }

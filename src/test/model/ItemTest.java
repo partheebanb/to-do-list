@@ -1,7 +1,6 @@
 package model;
 
 import model.items.NormalItem;
-import model.lists.GeneralToDoList;
 import org.junit.jupiter.api.Test;
 import java.text.SimpleDateFormat;
 
@@ -16,7 +15,6 @@ public class ItemTest {
         String display;
 
         normalItem.setTitle("Test");
-        normalItem.setStatus("Not done");
         normalItem.setDueDate(new SimpleDateFormat("20-04-2000"));
         normalItem.setPriority("High");
         display = normalItem.displayItem();
