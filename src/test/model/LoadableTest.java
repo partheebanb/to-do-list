@@ -21,8 +21,8 @@ public class LoadableTest {
     public void testLoad() throws IOException {
         NormalItem normalItem1 = new NormalItem();
         NormalItem normalItem2 = new NormalItem();
-        normalItem1.createItem("Test", "High", new SimpleDateFormat("20-04-2020"));
-        normalItem2.createItem("Test2", "Low", new SimpleDateFormat("18-12-2019"));
+        normalItem1.createItem("Test", new SimpleDateFormat("20-04-2020"));
+        normalItem2.createItem("Test2", new SimpleDateFormat("18-12-2019"));
         toDoList.getTheList().add(normalItem1);
         toDoList.getTheList().add(normalItem2);
         toDoList.save();

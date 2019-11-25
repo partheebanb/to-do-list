@@ -47,9 +47,8 @@ public abstract class Item {
         return priority;
     }
 
-    public Item createItem(String title, String priority, SimpleDateFormat dueDate) {
+    public Item createItem(String title, SimpleDateFormat dueDate) {
         this.title = title;
-        this.priority = priority;
         this.dueDate = dueDate;
         return this;
     }

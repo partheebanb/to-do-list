@@ -7,7 +7,6 @@ import model.items.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -126,8 +125,14 @@ public class ToDoList extends Observable implements Loadable, Saveable {
 
             size += 1;
             ArrayList<String> parts = splitOnSpace(line);
-            item = priorityDecider(parts.get(1));
-            item.createItem(parts.get(0), parts.get(1), new SimpleDateFormat(parts.get(2)));
+            item = priorityDecider(parts.get(0));
+            item.setDueDate(new SimpleDateFormat(parts.get(1)));
+
+            String title = "";
+            for (int i = 2; i < parts.size(); i++) {
+                title = title + parts.get(i) + " ";
+            }
+            item.setTitle(title);
             theList.add(item);
             // obtained some lines of code from FileReaderWriter.java
         }
@@ -148,8 +153,7 @@ public class ToDoList extends Observable implements Loadable, Saveable {
         PrintWriter writer = new PrintWriter(location, "UTF-8");
 
         for (Item item : theList) {
-            String line = item.getTitle() + " " + item.getPriority() + " "
-                    + item.getDueDate().toPattern();
+            String line = item.getPriority() + " " + item.getDueDate().toPattern() + " " + item.getTitle();
             writer.println(line);
         }
         writer.close();
