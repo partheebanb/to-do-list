@@ -13,23 +13,31 @@ import java.awt.event.ActionListener;
 public class ListPanel extends JPanel implements ActionListener {
     private MainPanel mainPanel;
     private JButton deleteButton;
+    private JLabel nameLabel;
     private ToDoList toDoList;
+    private JPanel buttonPanel;
 
     public ListPanel(MainPanel mainPanel, ToDoList toDoList, Border border) {
 
         this.mainPanel = mainPanel;
         this.toDoList = toDoList;
-        add(new JLabel(toDoList.getName()));
-        add(new OpenButton(toDoList, this));
-
+        nameLabel = new JLabel(toDoList.getName());
         deleteButton = new JButton("Delete");
+        buttonPanel = new JPanel();
+
         setUpDeleteButton();
-        add(deleteButton);
         setBorder(border);
         // setSize(600, 80);
         Dimension dimension = new Dimension();
         dimension.setSize(600, 50);
         setMaximumSize(dimension);
+        nameLabel.setPreferredSize(new Dimension(300, 45));
+        add(nameLabel);
+
+        buttonPanel.add(new OpenButton(toDoList, this));
+        buttonPanel.add(deleteButton);
+        add(buttonPanel);
+
     }
 
     private void setUpDeleteButton() {

@@ -39,6 +39,7 @@ public class MainMenu extends JFrame implements Saveable, ActionListener {
     public void displayMainMenu() throws IOException {
         lists = new ArrayList<>();
         panels = new ArrayList<>();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
 
         setSize(600,400);
         setTitle("Bruh List");
@@ -49,7 +50,9 @@ public class MainMenu extends JFrame implements Saveable, ActionListener {
         loadLists();
         convertListsToPanels();
         addListPanelsToMainPanel();
+        mainPanel.add(Box.createVerticalGlue());
         mainPanel.add(addNewListButton());
+        mainPanel.add(Box.createRigidArea(new Dimension(20,20)));
         add(mainPanel);
         setVisible(true);
     }
@@ -63,6 +66,7 @@ public class MainMenu extends JFrame implements Saveable, ActionListener {
 
     private void addListPanelsToMainPanel() {
         for (JPanel panel: panels) {
+            mainPanel.add(Box.createHorizontalGlue());
             mainPanel.add(panel);
         }
     }
@@ -113,5 +117,10 @@ public class MainMenu extends JFrame implements Saveable, ActionListener {
         mainPanel.removeAll();
         mainPanel.add(new AddNewListPanel(mainPanel));
         mainPanel.updateUI();
+    }
+
+    public void addList(ToDoList toDoList) {
+        lists.add(toDoList);
+        save();
     }
 }

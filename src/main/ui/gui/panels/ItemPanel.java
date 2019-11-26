@@ -16,19 +16,21 @@ public class ItemPanel extends JPanel implements ActionListener {
     private EditItemButton editItemButton;
     private Item item;
     private Dimension maxSize;
+    private JLabel itemLabel;
 
     public ItemPanel(Item item, MainPanel mainPanel) {
         removeBox = new JCheckBox("Remove");
         this.mainPanel = mainPanel;
         this.item = item;
         editItemButton = new EditItemButton();
-        maxSize = new Dimension();
-        maxSize.setSize(600, 50);
+        maxSize = new Dimension(600, 50);
 
         setMaximumSize(maxSize);
-        add(new JLabel(item.displayItem()));
-        add(editItemButton);
-        add(removeBox);
+        itemLabel = new JLabel(item.displayItem());
+        itemLabel.setPreferredSize(new Dimension(300, 50));
+        add(itemLabel, BorderLayout.CENTER);
+        add(editItemButton, BorderLayout.CENTER);
+        add(removeBox, BorderLayout.LINE_END);
         removeBox.addActionListener(this);
         editItemButton.addActionListener(this);
         setSize(600, 80);

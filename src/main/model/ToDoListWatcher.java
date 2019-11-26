@@ -16,4 +16,3 @@ public class ToDoListWatcher implements Observer {
         System.out.println("You have completed " + completed + " items in this list.");
     }
 }
-

@@ -1,11 +1,11 @@
 package ui.gui.panels;
 
-
 import model.items.Item;
 import model.lists.ToDoList;
 import ui.gui.MainMenu;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class MainPanel extends JPanel implements ActionListener {
 
     public void displayList(ToDoList toDoList) {
         this.toDoList = toDoList;
-        JButton backButton = new JButton("Back");
+
         removeAll();
         ArrayList<Item> items = toDoList.getTheList();
 
@@ -41,10 +41,28 @@ public class MainPanel extends JPanel implements ActionListener {
             add(new ItemPanel(item, this));
         }
 
+        add(Box.createVerticalGlue());
+        add(createListMenuPanel());
+        add(Box.createRigidArea(new Dimension(20,20)));
+
+        updateUI();
+    }
+
+    private JPanel createListMenuPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout());
+
+        JButton addItemButton = new JButton("+");
+        addItemButton.setActionCommand("Add item");
+        addItemButton.addActionListener(this);
+
+        JButton backButton = new JButton("Back");
         backButton.setActionCommand("Back");
         backButton.addActionListener(this);
-        add(backButton);
-        updateUI();
+
+        panel.add(addItemButton);
+        panel.add(backButton);
+        return panel;
     }
 
     public void displayEditItemMenu(Item item) {
@@ -62,6 +80,10 @@ public class MainPanel extends JPanel implements ActionListener {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+        } else if (e.getActionCommand().equals("Add item")) {
+            removeAll();
+            add(new AddItemPanel(toDoList, this));
+            updateUI();
         }
     }
 }

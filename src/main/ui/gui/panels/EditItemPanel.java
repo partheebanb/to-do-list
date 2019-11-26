@@ -2,23 +2,32 @@ package ui.gui.panels;
 
 import model.items.Item;
 
+import javax.management.Attribute;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 
 public class EditItemPanel extends Panel implements ActionListener {
-    private Item item;
+    protected Item item;
     private MainPanel mainPanel;
-    private JTextField titleField;
+    protected JTextField titleField;
+    protected JTextField dateField;
     private ButtonGroup buttonGroup;
 
     public EditItemPanel(Item item, MainPanel mainPanel) {
         this.item = item;
         this.mainPanel = mainPanel;
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
+        add(Box.createVerticalStrut(15));
         add(createTitlePanel(item));
+        add(Box.createVerticalStrut(15));
         add(createPriorityPanel(item));
+        add(Box.createVerticalStrut(15));
         add(createDatePanel(item));
+        add(Box.createVerticalGlue());
         add(okayAndCancelPanel(item));
     }
 
@@ -40,11 +49,14 @@ public class EditItemPanel extends Panel implements ActionListener {
 
     private Component createDatePanel(Item item) {
         JPanel panel = new JPanel();
-        panel.add(new JLabel("Date: "));
         Dimension maximumSize = new Dimension();
+
         maximumSize.setSize(300, 40);
         panel.setMaximumSize(maximumSize);
         panel.setMinimumSize(maximumSize);
+        panel.add(new JLabel("Date: "));
+        dateField = new JTextField(item.getDueDate().toPattern());
+        panel.add(dateField);
         return panel;
     }
 
@@ -61,16 +73,12 @@ public class EditItemPanel extends Panel implements ActionListener {
     }
 
     private JPanel createTitlePanel(Item item) {
-        JTextField titleField = new JTextField(item.getTitle());
-        Dimension maximumSize = new Dimension();
-        maximumSize.setSize(300, 40);
-       // titleField.setSize(800, 40);
-        titleField.setMaximumSize(maximumSize);
-        titleField.setMinimumSize(maximumSize);
-        this.titleField = titleField;
-        this.titleField.setColumns(40);
-
+        titleField = new JTextField(item.getTitle());
         JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.LINE_AXIS));
+        Dimension maximumSize = new Dimension(300, 80);
+        titleField.setColumns(40);
+
         titlePanel.add(new JLabel("Title: "));
         titlePanel.add(titleField);
         titlePanel.setMaximumSize(maximumSize);
@@ -113,6 +121,7 @@ public class EditItemPanel extends Panel implements ActionListener {
         } else if (e.getActionCommand().equals("Okay")) {
             item.setTitle(titleField.getText());
             item.setPriority(getPriority());
+            item.setDueDate(new SimpleDateFormat(dateField.getText()));
             try {
                 item.getToDoList().save();
             } catch (Exception ex) {
@@ -122,7 +131,7 @@ public class EditItemPanel extends Panel implements ActionListener {
         }
     }
 
-    private String getPriority() {
+    protected String getPriority() {
         if (buttonGroup.getSelection().getActionCommand().equals("Low")) {
             return "Low";
         } else if (buttonGroup.getSelection().getActionCommand().equals("Normal")) {

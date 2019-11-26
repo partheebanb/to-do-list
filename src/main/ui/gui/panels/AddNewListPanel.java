@@ -1,5 +1,7 @@
 package ui.gui.panels;
 
+import model.lists.ToDoList;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +13,7 @@ public class AddNewListPanel extends Panel implements ActionListener {
     private JLabel label;
     private MainPanel mainPanel;
     private JButton backButton;
+    private JButton addButton;
 
     public AddNewListPanel(MainPanel mainPanel) {
         this.mainPanel = mainPanel;
@@ -18,22 +21,29 @@ public class AddNewListPanel extends Panel implements ActionListener {
         listName = new JTextField();
         backButton = new JButton("Back");
         backButton.addActionListener(this);
+        addButton = new JButton("Add");
+        addButton.addActionListener(this);
 
         label.setText("Name: ");
         listName.setColumns(40);
         add(label);
         add(listName);
+        add(addButton);
         add(backButton);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            mainPanel.removeAll();
-            mainPanel.getMainMenu().displayMainMenu();
-            mainPanel.updateUI();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        if (e.getSource() == backButton) {
+            try {
+                mainPanel.removeAll();
+                mainPanel.getMainMenu().displayMainMenu();
+                mainPanel.updateUI();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } else if (e.getSource() == addButton) {
+            mainPanel.getMainMenu().addList(new ToDoList(listName.getText()));
         }
     }
 }
