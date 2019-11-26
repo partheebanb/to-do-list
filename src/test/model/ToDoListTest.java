@@ -2,9 +2,6 @@ package model;
 
 import exceptions.ExceededMaxSizeException;
 import model.items.Item;
-import model.items.LowItem;
-import model.items.NormalItem;
-import model.items.UrgentItem;
 import model.lists.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +18,7 @@ public class ToDoListTest {
     }
     @Test
     public void testCompleteItem() {
-        NormalItem normalItem = new NormalItem();
+        Item normalItem = new Item();
 
         try {
             toDoList.addItem(normalItem);
@@ -35,9 +32,12 @@ public class ToDoListTest {
 
     @Test
     public void testSort() throws ExceededMaxSizeException {
-        Item item1 = new LowItem();
-        Item item2 = new NormalItem();
-        Item item3 = new UrgentItem();
+        Item item1 = new Item();
+        Item item2 = new Item();
+        Item item3 = new Item();
+        item1.setPriority("Low");
+        item2.setPriority("Normal");
+        item3.setPriority("Urgent");
         toDoList.addItem(item1);
         toDoList.addItem(item2);
         toDoList.addItem(item3);
@@ -52,8 +52,8 @@ public class ToDoListTest {
 
     @Test
     public void testSwitch() throws ExceededMaxSizeException {
-        Item item1 = new NormalItem();
-        Item item2 = new NormalItem();
+        Item item1 = new Item();
+        Item item2 = new Item();
 
         toDoList.addItem(item1);
         toDoList.addItem(item2);

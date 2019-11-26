@@ -1,13 +1,13 @@
 package model;
 
-import model.items.NormalItem;
+import model.items.Item;
 import model.lists.ToDoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class LoadableTest {
     ToDoList toDoList;
@@ -19,8 +19,8 @@ public class LoadableTest {
 
     @Test
     public void testLoad() throws IOException {
-        NormalItem normalItem1 = new NormalItem();
-        NormalItem normalItem2 = new NormalItem();
+        Item normalItem1 = new Item();
+        Item normalItem2 = new Item();
         normalItem1.createItem("Test", new SimpleDateFormat("20-04-2020"));
         normalItem2.createItem("Test2", new SimpleDateFormat("18-12-2019"));
         toDoList.getTheList().add(normalItem1);

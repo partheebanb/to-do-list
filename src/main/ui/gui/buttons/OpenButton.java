@@ -1,4 +1,4 @@
-package ui.gui;
+package ui.gui.buttons;
 
 import model.lists.ToDoList;
 import ui.gui.panels.ListPanel;
@@ -8,9 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class OpenButton extends JButton {
-    OpenButtonListener openButtonListener;
-    ToDoList toDoList;
-    ListPanel listPanel;
+    private OpenButtonListener openButtonListener;
+    private ToDoList toDoList;
+    private ListPanel listPanel;
 
     public OpenButton(ToDoList toDoList, ListPanel listPanel) {
         openButtonListener = new OpenButtonListener();

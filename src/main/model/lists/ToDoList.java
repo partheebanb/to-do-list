@@ -64,10 +64,11 @@ public class ToDoList extends Observable implements Loadable, Saveable {
     public void sort() {
         for (int j = 0; j < theList.size() - 1; j++) {
             for (int i = 0; i < theList.size() - 1; i++) {
-                if (!(theList.get(i).getPriority() == "URGENT") && (theList.get(i + 1).getPriority() == "URGENT")) {
+                if (!(theList.get(i).getPriority().equals("Urgent"))
+                        && (theList.get(i + 1).getPriority().equals("Urgent"))) {
                     switchItems(i);
                 }
-                if ((theList.get(i).getPriority() == "Low") && !(theList.get(i + 1).getPriority() == "Low")) {
+                if ((theList.get(i).getPriority().equals("Low")) && !(theList.get(i + 1).getPriority().equals("Low"))) {
                     switchItems(i);
                 }
             }
@@ -80,16 +81,16 @@ public class ToDoList extends Observable implements Loadable, Saveable {
         theList.set(i, normalItem);
     }
 
-    public Item handlePriority(String option) {
-        switch (option) {
-            case "1":
-                return new LowItem();
-            case "3":
-                return new UrgentItem();
-            default:
-                return new NormalItem();
-        }
-    }
+//    public Item handlePriority(String option) {
+//        switch (option) {
+//            case "1":
+//                return new LowItem();
+//            case "3":
+//                return new UrgentItem();
+//            default:
+//                return new NormalItem();
+//        }
+//    }
 
     //REQUIRES: crossOff <= size of theList
     //MODIFIES: this
@@ -101,13 +102,18 @@ public class ToDoList extends Observable implements Loadable, Saveable {
         size -= 1;
     }
 
-
-    // EFFECTS: prints out all the items in theList formatted appropriately
-    public void displayList() {
-        for (int i = 0; i < size; i++) {
-            System.out.println((i + 1) + ". " + theList.get(i).displayItem());
-        }
+    public void removeItem(Item item) throws FileNotFoundException, UnsupportedEncodingException {
+        theList.remove(item);
+        save();
     }
+
+
+//    // EFFECTS: prints out all the items in theList formatted appropriately
+//    public void displayList() {
+//        for (int i = 0; i < size; i++) {
+//            System.out.println((i + 1) + ". " + theList.get(i).displayItem());
+//        }
+//    }
 
     // MODIFIES: this
     // EFFECTS: deletes all the data in theList and assigns to it all the data in generalToDoList
@@ -121,11 +127,11 @@ public class ToDoList extends Observable implements Loadable, Saveable {
 
     private void convertLinesToItems(List<String> lines) {
         for (String line : lines) {
-            Item item;
+            Item item = new Item();
 
             size += 1;
             ArrayList<String> parts = splitOnSpace(line);
-            item = priorityDecider(parts.get(0));
+            item.setPriority((parts.get(0)));
             item.setDueDate(new SimpleDateFormat(parts.get(1)));
 
             String title = "";
@@ -133,23 +139,15 @@ public class ToDoList extends Observable implements Loadable, Saveable {
                 title = title + parts.get(i) + " ";
             }
             item.setTitle(title);
+            item.setToDoList(this);
             theList.add(item);
             // obtained some lines of code from FileReaderWriter.java
         }
     }
 
-    private Item priorityDecider(String priority) {
-        if (priority == "Low") {
-            return new LowItem();
-        } else if (priority == "Normal") {
-            return new NormalItem();
-        } else {
-            return new UrgentItem();
-        }
-    }
-
     // EFFECTS: saves all the data in toDoList into generalToDoList
     public void save() throws FileNotFoundException, UnsupportedEncodingException {
+        sort();
         PrintWriter writer = new PrintWriter(location, "UTF-8");
 
         for (Item item : theList) {
@@ -169,7 +167,7 @@ public class ToDoList extends Observable implements Loadable, Saveable {
         return new ArrayList<>(Arrays.asList(splits));
     }
 
-    public  void addItem(Item item) throws ExceededMaxSizeException {
+    public void addItem(Item item) throws ExceededMaxSizeException {
         if (!theList.contains(item)) {
             if (size++ > MAX_SIZE) {
                 throw new ExceededMaxSizeException();

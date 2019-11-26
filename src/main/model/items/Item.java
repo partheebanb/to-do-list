@@ -2,10 +2,12 @@ package model.items;
 
 import model.lists.ToDoList;
 
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
-public abstract class Item {
+public class Item {
     protected String title;
     protected String priority;
     protected SimpleDateFormat dueDate;
@@ -47,6 +49,10 @@ public abstract class Item {
         return priority;
     }
 
+    public ToDoList getToDoList() {
+        return toDoList;
+    }
+
     public Item createItem(String title, SimpleDateFormat dueDate) {
         this.title = title;
         this.dueDate = dueDate;
@@ -54,5 +60,20 @@ public abstract class Item {
     }
 
     //  EFFECTS: returns a string containing all the data in the item formatted for display
-    public abstract String displayItem();
+    public String displayItem() {
+        String exclamations;
+        if (priority.equals("Low")) {
+            exclamations = "!   ";
+        } else if (priority.equals("Normal")) {
+            exclamations = "!!   ";
+        } else {
+            exclamations = "!!!   ";
+        }
+        return (exclamations + title + "   " + dueDate.toPattern());
+    }
+
+    public void removeFromToDoList() throws FileNotFoundException, UnsupportedEncodingException {
+        toDoList.removeItem(this);
+        toDoList = null;
+    }
 }

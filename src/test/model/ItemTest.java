@@ -1,6 +1,6 @@
 package model;
 
-import model.items.NormalItem;
+import model.items.Item;
 import org.junit.jupiter.api.Test;
 import java.text.SimpleDateFormat;
 
@@ -11,7 +11,7 @@ public class ItemTest {
 
     @Test
     public void testDisplayItem() {
-        NormalItem normalItem = new NormalItem();
+        Item normalItem = new Item();
         String display;
 
         normalItem.setTitle("Test");
