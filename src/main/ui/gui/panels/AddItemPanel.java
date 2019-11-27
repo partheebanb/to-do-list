@@ -17,14 +17,20 @@ public class AddItemPanel extends EditItemPanel {
 
     }
 
-    @Override
+    // MODIFIES: this, item, mainPanel, toDoList
+    // EFFECTS: Take user back to list view if cancel is clicked or adds a new item to toDoList based on user input
+    //      if okay is clicked
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Cancel")) {
             mainPanel.displayList(mainPanel.getToDoList());
         } else if (e.getActionCommand().equals("Okay")) {
             item.setTitle(titleField.getText());
             item.setPriority(getPriority());
-            item.setDueDate(new SimpleDateFormat(dateField.getText()));
+            try {
+                item.setDueDate(new SimpleDateFormat(dateField.getText()));
+            } catch (Exception ex) {
+                item.setDueDate(popUpDate());
+            }
             try {
                 toDoList.addItem(item);
                 toDoList.save();

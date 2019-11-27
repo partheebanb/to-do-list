@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
 
 public class ItemPanel extends JPanel implements ActionListener {
     private JCheckBox removeBox;
@@ -37,6 +35,9 @@ public class ItemPanel extends JPanel implements ActionListener {
         setBorder(BorderFactory.createRaisedBevelBorder());
     }
 
+    // MODIFIES: this,  mainPanel
+    // EFFECTS: removes selected item from its ToDoList and thus the panel if the remove box is selected or open the
+    //      edit item menu in the main panel
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == removeBox) {
             mainPanel.remove(this);
@@ -46,7 +47,7 @@ public class ItemPanel extends JPanel implements ActionListener {
                 ex.printStackTrace();
             }
             mainPanel.updateUI();
-        } else {
+        } else if (e.getSource() == editItemButton) {
             mainPanel.displayEditItemMenu(item);
         }
     }

@@ -16,7 +16,6 @@ public class ToDoList extends Observable implements Loadable, Saveable {
     private Scanner scanner;
     private Integer size;
     private String location;
-    private File file;
     private String name;
 
     public ToDoList(String name) {
@@ -53,6 +52,8 @@ public class ToDoList extends Observable implements Loadable, Saveable {
         return name;
     }
 
+    // MODIFIES: this
+    // EFFECTS: increments size unless would size exceed max size, in which case it throws an exception
     public void setSize(Integer i) throws ExceededMaxSizeException {
         if (size < MAX_SIZE) {
             this.size = i;
@@ -61,6 +62,8 @@ public class ToDoList extends Observable implements Loadable, Saveable {
         }
     }
 
+    // MODIFES: this
+    // EFFECTS: sorts the list with urgent items at the top and low priority items at the bottom
     public void sort() {
         for (int j = 0; j < theList.size() - 1; j++) {
             for (int i = 0; i < theList.size() - 1; i++) {
@@ -75,22 +78,14 @@ public class ToDoList extends Observable implements Loadable, Saveable {
         }
     }
 
+    // REQUIRES: size >= i + 1
+    // EFFECTS: switches the positions of items at i and i+1
     public void switchItems(int i) {
         Item normalItem = theList.get(i + 1);
         theList.set(i + 1, theList.get(i));
         theList.set(i, normalItem);
     }
 
-//    public Item handlePriority(String option) {
-//        switch (option) {
-//            case "1":
-//                return new LowItem();
-//            case "3":
-//                return new UrgentItem();
-//            default:
-//                return new NormalItem();
-//        }
-//    }
 
     //REQUIRES: crossOff <= size of theList
     //MODIFIES: this
@@ -102,18 +97,13 @@ public class ToDoList extends Observable implements Loadable, Saveable {
         size -= 1;
     }
 
+    // REQUIRES: item in theList
+    // MODIFIES: this
+    // EFFECTS: removes item from the list
     public void removeItem(Item item) throws FileNotFoundException, UnsupportedEncodingException {
         theList.remove(item);
         save();
     }
-
-
-//    // EFFECTS: prints out all the items in theList formatted appropriately
-//    public void displayList() {
-//        for (int i = 0; i < size; i++) {
-//            System.out.println((i + 1) + ". " + theList.get(i).displayItem());
-//        }
-//    }
 
     // MODIFIES: this
     // EFFECTS: deletes all the data in theList and assigns to it all the data in generalToDoList
@@ -167,6 +157,8 @@ public class ToDoList extends Observable implements Loadable, Saveable {
         return new ArrayList<>(Arrays.asList(splits));
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds item to the list if item isn't in the list and list doesn't exceed MAXSIZE
     public void addItem(Item item) throws ExceededMaxSizeException {
         if (!theList.contains(item)) {
             if (size++ > MAX_SIZE) {

@@ -72,6 +72,8 @@ public class Item {
         return (exclamations + title + "   " + dueDate.toPattern());
     }
 
+    // MODIFIES: this, toDoList
+    // EFFECTS: removes this from toDoList and sets toDoList to null
     public void removeFromToDoList() throws FileNotFoundException, UnsupportedEncodingException {
         toDoList.removeItem(this);
         toDoList = null;

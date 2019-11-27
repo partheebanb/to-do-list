@@ -22,6 +22,8 @@ public class OpenButton extends JButton {
 
     private class OpenButtonListener implements ActionListener {
 
+        // MODIFIES: listPanel.parent
+        // EFFECTS: removes list panel from main panel
         public void actionPerformed(ActionEvent e) {
             listPanel.getParent().removeAll();
             listPanel.getParent().displayList(toDoList);

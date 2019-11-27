@@ -33,6 +33,9 @@ public class AddNewListPanel extends Panel implements ActionListener {
     }
 
     @Override
+    // MODIFIES: mainPanel
+    // EFFECTS: adds a new ToDoList with user-specified name if add button is pressed or simply loads the main menu if
+    //      the back button is pressed
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
             try {
@@ -44,6 +47,13 @@ public class AddNewListPanel extends Panel implements ActionListener {
             }
         } else if (e.getSource() == addButton) {
             mainPanel.getMainMenu().addList(new ToDoList(listName.getText()));
+            mainPanel.removeAll();
+            try {
+                mainPanel.getMainMenu().displayMainMenu();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            mainPanel.updateUI();
         }
     }
 }

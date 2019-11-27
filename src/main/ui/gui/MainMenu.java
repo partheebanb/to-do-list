@@ -1,7 +1,6 @@
 package ui.gui;
 
 import model.Saveable;
-import model.items.Item;
 import model.lists.ToDoList;
 import ui.gui.panels.AddNewListPanel;
 import ui.gui.panels.ListPanel;
@@ -10,10 +9,8 @@ import ui.gui.panels.MainPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -27,25 +24,21 @@ public class MainMenu extends JFrame implements Saveable, ActionListener {
     private ArrayList<ToDoList> lists;
     private final String fileLocations = "C:\\Users\\bpart\\CPSC 210\\Labs\\project_w8d2b\\data\\ListLocations";
 
-//    public static void main(String[] args) throws IOException {
-//        new MainMenu();
-//    }
-
     public MainMenu() throws IOException {
         mainPanel = new MainPanel(this);
         displayMainMenu();
     }
 
+    // MODIFIES: this
+    // EFFECTS: displays the main menu of the program
     public void displayMainMenu() throws IOException {
         lists = new ArrayList<>();
         panels = new ArrayList<>();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-
         setSize(600,400);
-        setTitle("Bruh List");
+        setTitle("A Magnificent To Do List");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
 
         loadLists();
         convertListsToPanels();
@@ -85,12 +78,15 @@ public class MainMenu extends JFrame implements Saveable, ActionListener {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: removes ToDoList from lists and saves lists
     public void removeList(ToDoList toDoList) {
         lists.remove(toDoList);
         save();
     }
 
-    @Override
+
+    // EFFECTS: saves the name of all the toDoLists in lists to a file
     public void save() {
         try {
             PrintWriter writer = new PrintWriter(fileLocations, "UTF-8");
@@ -107,6 +103,8 @@ public class MainMenu extends JFrame implements Saveable, ActionListener {
     }
 
     @Override
+    // MODIFIES: this, mainPanel
+    // EFFECTS: opens up the add list view if the + button is clicked
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("New")) {
             addListScreen();
@@ -119,8 +117,18 @@ public class MainMenu extends JFrame implements Saveable, ActionListener {
         mainPanel.updateUI();
     }
 
+    // MODIFIES: this
+    //EFFECTS: adds ToDoList to lists if its name isn't a duplicate
     public void addList(ToDoList toDoList) {
-        lists.add(toDoList);
-        save();
+        Boolean duplicate = false;
+        for (ToDoList list : lists) {
+            if (list.getName().equals(toDoList.getName())) {
+                duplicate = true;
+            }
+        }
+        if (!duplicate) {
+            lists.add(toDoList);
+            save();
+        }
     }
 }

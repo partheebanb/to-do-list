@@ -2,7 +2,6 @@ package ui.gui.panels;
 
 import model.items.Item;
 
-import javax.management.Attribute;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -56,6 +55,7 @@ public class EditItemPanel extends Panel implements ActionListener {
         panel.setMinimumSize(maximumSize);
         panel.add(new JLabel("Date: "));
         dateField = new JTextField(item.getDueDate().toPattern());
+        dateField.setColumns(20);
         panel.add(dateField);
         return panel;
     }
@@ -115,13 +115,19 @@ public class EditItemPanel extends Panel implements ActionListener {
     }
 
     @Override
+    // MODIFIES: mainPanel, this, item
+    // EFFECTS: Take user back to list view if cancel is clicked or edits current item if okay is clicked
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Cancel")) {
             mainPanel.displayList(mainPanel.getToDoList());
         } else if (e.getActionCommand().equals("Okay")) {
             item.setTitle(titleField.getText());
             item.setPriority(getPriority());
-            item.setDueDate(new SimpleDateFormat(dateField.getText()));
+            try {
+                item.setDueDate(new SimpleDateFormat(dateField.getText()));
+            } catch (Exception ex) {
+                item.setDueDate(popUpDate());
+            }
             try {
                 item.getToDoList().save();
             } catch (Exception ex) {
@@ -138,6 +144,15 @@ public class EditItemPanel extends Panel implements ActionListener {
             return "Normal";
         } else {
             return "Urgent";
+        }
+    }
+
+    protected SimpleDateFormat popUpDate() {
+        try {
+            return new SimpleDateFormat(JOptionPane.showInputDialog(this,
+                    "Please enter a valid date?", "dd-mm-yyyy"));
+        } catch (Exception e) {
+            return popUpDate();
         }
     }
 }

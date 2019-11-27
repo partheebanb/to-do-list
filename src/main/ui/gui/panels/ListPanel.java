@@ -44,7 +44,8 @@ public class ListPanel extends JPanel implements ActionListener {
         deleteButton.addActionListener(this);
     }
 
-    public void removeFromMainPanel() {
+    private void removeFromMainPanel() {
+        mainPanel.getMainMenu().removeList(toDoList);
         mainPanel.remove(this);
         mainPanel.updateUI();
     }
@@ -55,8 +56,11 @@ public class ListPanel extends JPanel implements ActionListener {
     }
 
 
+    // MODIFIES: mainPanel, mainPanel.mainMenu
+    // EFFECTS: removes current list panel from main panel and removes the list from main menu
     public void actionPerformed(ActionEvent e) {
-        getParent().getMainMenu().removeList(toDoList);
-        removeFromMainPanel();
+        if (e.getSource() == deleteButton) {
+            removeFromMainPanel();
+        }
     }
 }

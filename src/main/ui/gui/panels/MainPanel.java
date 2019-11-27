@@ -11,13 +11,17 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
+
 public class MainPanel extends JPanel implements ActionListener {
     private MainMenu mainMenu;
     private ToDoList toDoList;
-    private Item item;
 
     public MainPanel(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
+        JScrollPane scrollPane = new JScrollPane(this, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        mainMenu.add(scrollPane);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
@@ -30,6 +34,8 @@ public class MainPanel extends JPanel implements ActionListener {
     }
 
 
+    // MODIFIES: this
+    // EFFECTS: creates and adds a new item panel for each item in todolist and adds new item and back buttons
     public void displayList(ToDoList toDoList) {
         this.toDoList = toDoList;
 
@@ -65,12 +71,16 @@ public class MainPanel extends JPanel implements ActionListener {
         return panel;
     }
 
-    public void displayEditItemMenu(Item item) {
+    // MODIFIES: this
+    // EFFECTS: loads up the edit item menu for item
+    void displayEditItemMenu(Item item) {
         removeAll();
         add(new EditItemPanel(item, this));
         updateUI();
     }
 
+    // MODIFIES: this, mainMenu
+    // EFFECTS: displays main menu if back button is pressed or opens add item view if "+" button is pressed
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Back")) {

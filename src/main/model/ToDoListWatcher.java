@@ -11,6 +11,9 @@ public class ToDoListWatcher implements Observer {
     }
 
     @Override
+    // MODIFIES: this
+    // EFFECTS: increments counter for completed items and prints out the number of completed items whenever an item
+    //      is completed
     public void update(Observable o, Object arg) {
         completed++;
         System.out.println("You have completed " + completed + " items in this list.");
